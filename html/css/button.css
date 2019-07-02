@@ -1,0 +1,59 @@
+@charset "utf-8";
+
+.button_audience {
+  float: left;
+  margin-left: 16%;
+  font-size: 20px;
+  width: 20%;
+  height: 100%;
+  text-align: center;
+  box-sizing: border-box;
+  background-color: #585858;
+  color: #F2F2F2;  
+  border-right: #FFFFFF solid 1px;      /*테두리*/
+  border-left: #FFFFFF solid 2px;      /*테두리*/
+  padding: 10px;                  /*글씨 크기*/
+}
+.button_audience:hover {
+  cursor: pointer;                /*커서 모양*/
+  color: #F2F2F2;                 /*글자 색*/
+  background-color: #000000;      /*배경 색*/
+}
+
+.button_exhibition {
+  float: left;
+  font-size: 20px;
+  width: 20%;
+  height: 100%;
+  text-align: center;
+  box-sizing: border-box;
+  background-color: #585858;
+  color: #F2F2F2;  
+  border-right: #FFFFFF solid 1px;      /*테두리*/
+  border-left: #FFFFFF solid 1px;      /*테두리*/
+  padding: 10px;                  /*글씨 크기*/
+}
+.button_exhibition:hover {
+  cursor: pointer;                /*커서 모양*/
+  color: #F2F2F2;                 /*글자 색*/
+  background-color: #000000;      /*배경 색*/
+}
+
+.button_narrator {
+  float: left;
+  font-size: 20px;
+  width: 20%;
+  height: 100%;
+  text-align: center;
+  box-sizing: border-box;
+  background-color: #585858;
+  color: #F2F2F2;  
+  border-right: #FFFFFF solid 2px;      /*테두리*/
+  border-left: #FFFFFF solid 1px;      /*테두리*/
+  padding: 10px;                  /*글씨 크기*/
+}
+.button_narrator:hover {
+  cursor: pointer;                /*커서 모양*/
+  color: #F2F2F2;                 /*글자 색*/
+  background-color: #000000;      /*배경 색*/
+}

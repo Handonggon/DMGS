@@ -1,0 +1,40 @@
+@charset "utf-8";
+
+#search {
+    position: relative;
+}
+div.search {
+  border-radius: 5em;
+  border: #D8D8D8 solid 2px;
+  background-color: #FFFFFF;
+  height: 5%;
+  width: 40%;
+}
+select.search {
+  text-align: center;
+  font: 20px;
+  width:  12%;
+  padding-bottom: .3em;
+  outline: none;
+  vertical-align: bottom;
+    position: absolute;    
+    left: 50%;
+}
+input.search {
+  margin-left:-10px;
+  fonnt : 20px;
+  padding: .155em;
+  width:  50%;
+  outline: none;
+  vertical-align: bottom;
+    position: absolute;
+    left: 50%;
+}
+
+button.search {
+  margin-left:-10px;
+  height: 23px;
+  vertical_align:bottom;
+    position: absolute;
+    left: 50%;
+}
