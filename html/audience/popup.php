@@ -8,7 +8,7 @@
   <head>
     <meta charset="UTF-8">
     <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
-    <link rel="stylesheet" href="/css/audiencec.css" type="text/css">
+    <link rel="stylesheet" href="/css/audiencec_popup.css" type="text/css">
     <script>
       var number = location.href.split('=')[1];
       //document.writeln(number);
@@ -30,14 +30,14 @@
   		}
       function setSubmitUrl(mode) {
         if(mode == "modify") {
-          document.forms["audience_form"].action = "./modify.php";
+          document.forms["audience_form"].action = "/audience/db/modify.php";
         }
         else if(mode == "delete") {
           //alert("delete");
-          document.forms["audience_form"].action = "./delete.php";
+          document.forms["audience_form"].action = "/audience/db/delete.php";
         }
         else if(mode == "cancel") {
-          document.forms["audience_form"].action = "./cancel.php";
+          document.forms["audience_form"].action = "/audience/db/cancel.php";
         }
       }
     </script>

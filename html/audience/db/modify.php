@@ -16,7 +16,7 @@
     echo "
       <script>
         alert('수정되었습니다.');
-        opener.parent.location='audience.php';
+        opener.parent.location='/audience/audience_apply.php';
         window.close();
       </script>
     ";
