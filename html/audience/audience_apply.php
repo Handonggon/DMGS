@@ -1,7 +1,16 @@
 <?php
-  include $_SERVER['DOCUMENT_ROOT']."/audience/db/search.php";
+  include $_SERVER['DOCUMENT_ROOT']."/css/dbconn.php";
   include $_SERVER['DOCUMENT_ROOT']."/css/head.php";
 ?>
+<script>
+  function search_click() {
+    document.cookie = "select=" + document.getElementById("search_select").value;
+    document.cookie = "value=" + document.getElementById("search_input").value;
+    window.location.reload(true);
+  }
+  window.onbeforeunload = function() {
+  }
+</script>
 <!DOCTYPE html>
 <html>
   <body>
@@ -14,11 +23,11 @@
      <div class="search-parent">
       <div id="search">
        <select class="search" id="search_select">
-          <option value="title">군번</option>
+          <option value="number">군번</option>
           <option value="name">이름</option>
         </select>
-        <input class="search" id="search_input" type="text" name="search" size="40" required="required"/>
-        <button class="search">검색</button>
+        <input class="search" id="search_input" type="text" name="search" size="40" required="required" value=<?php echo $_COOKIE["value"] ?>>
+        <button class="search" id="search_button" onclick="search_click();">검색</button>
        </div>
       </div>
       <div class="table-box-wrap">
@@ -38,7 +47,20 @@
             </thead>
             <tbody>
               <?php
-                $result = query("SELECT * FROM audience WHERE end_date IS NULL");
+ 	        $table = "audience";
+                $select = $_COOKIE["select"];
+                $value = $_COOKIE["value"];
+                if($value != "") {
+                  if($select == "number") {
+                    $result = query("SELECT * FROM $table WHERE end_date IS NULL AND number = '$value'");
+                  }
+                  else if($select == "name") {
+                    $result = query("SELECT * FROM $table WHERE end_date IS NULL AND name = '$value'");
+                  }
+                }
+                else {
+                  $result = query("SELECT * FROM $table WHERE end_date IS NULL");
+  	        }
                 $i = 0;
                 while($audience = $result->fetch_array()) {
                   $i++;
