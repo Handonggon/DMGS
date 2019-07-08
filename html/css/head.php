@@ -5,7 +5,7 @@
     <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
     <link rel="stylesheet" href="/css/button.css?var=4" type="text/css">
     <link rel="stylesheet" href="/css/table.css?var=4" type="text/css">
-    <link rel="stylesheet" href="/css/search.css?var=1" type="text/css">
+    <link rel="stylesheet" href="/css/search.css?var=3" type="text/css">
     <style type="text/css">
       body {
         margin: 0;
