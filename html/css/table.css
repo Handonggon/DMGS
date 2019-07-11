@@ -24,6 +24,11 @@
   top: 0;
   width: 98.7%;
 }
+.table-box-wrap .table-box table tr {
+    display: inline-table;
+    width: 100%;
+    table-layout: fixed;
+} 
 .table-box-wrap .table-box table thead tr th {
   font-weight: normal;
   height: 40px;
@@ -39,7 +44,16 @@
   border-left: 1px solid #000000;
   border-bottom: 1px solid #000000;
 }
-
+.table-box-wrap .table-box table tr:hover {
+  cursor: pointer;                /*커서 모양*/
+  color: #F2F2F2;                 /*글자 색*/
+}
+.table-box-wrap .table-box table td.white:hover {
+  cursor: default;
+}
+.table-box-wrap .table-box table tr th:hover {
+  cursor: default;
+}
 .table-box-wrap .table-box table td.blue {
   background: #819FF7;
   text-align: center;
@@ -54,9 +68,4 @@
   height: 40px;
   border-left: 1px solid #000000;
   border-bottom: 1px solid #000000;
-}
-.table-box-wrap .table-box table tr {
-    display: inline-table;
-    width: 100%;
-    table-layout: fixed;
 }

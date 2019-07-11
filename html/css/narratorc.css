@@ -1,0 +1,71 @@
+#calendar-wrap {
+  text-align: center;
+  width: 100%;
+}
+
+#calendar tr {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+#calendar td {
+  display: block;
+  float: left;
+  width: 14.342%;
+  padding: 5px;
+  box-sizing: border-box;
+  border: 1px solid #cccccc;
+  margin-right: -1px;
+  margin-bottom: -3px;
+}
+#calendar .blank {
+  height: 115px;
+}
+
+#calendar .date {
+  text-align: center;
+  margin-bottom: 5px;
+  padding: 4px;
+  width: 20px;
+  float: right;
+}
+
+#calendar .event1 {
+  clear: both;
+  width: 100px;
+  background-color: #f9a558;
+  border: none;
+  color:#ffffff;
+  padding: 5px 0;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  font-size: 15px;
+  margin-top: 40px;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+#calendar .event1:hover {
+  background-color: #f8585b;
+}
+
+#calendar .event1:hover {
+  background-color: #8c5d31;
+}
+#calendar .event2 {
+  width: 100px;
+  background-color: #5894f9;
+  border: none;
+  color:#ffffff;
+  padding: 5px 0;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  font-size: 15px;
+  margin: 4px 0;
+  cursor: pointer;
+}
+#calendar .event2:hover {
+  background-color: #31528b;
+}

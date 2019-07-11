@@ -1,7 +1,8 @@
+
 <?php
-  include $_SERVER['DOCUMENT_ROOT']."/css/dbconn.php";
   include $_SERVER['DOCUMENT_ROOT']."/css/head.php";
 ?>
+
 <script>
   function search_click() {
     document.cookie = "select=" + document.getElementById("search_select").value;
@@ -13,159 +14,137 @@
     document.cookie = "value=" + "";
     window.location.reload(true);
   }
-  window.onbeforeunload = function() {}  //새로고침 이벤트
-  function blue_click(id) {
-    alert(id);
+  function blue_click(number) {
+    alert(number);
   }
-  function green_click(id) {
-    alert(id);
+  function green_click(number) {
+    alert(number);
   }
-  function white_click(id) {
-    alert(id);
+  function white_click(number) {
+    alert(number);
+  }
+  function table_click(number) {
+    var openWin =  window.open("popup.php?number=" + number , "name", "width=500, height=600, scrollbar=no");
   }
 </script>
-<!DOCTYPE html>
+
 <html>
   <body>
-    <nav>
-      <h2 onclick = "location.href = 'audience_apply.php'">신청 관리</h2>
-      <h2 onclick = "location.href = 'audience_manage.php'">관람 관리</h2>
-    </nav>
-    <section id>
-     <h3 >신청 관리</h3>
-     <div class="search-parent">
-      <div id="search">
-       <select class="search" id="search_select">
-          <option value=<?php echo $_COOKIE["select"] ?> selected disabled hidden>
-            <?php
-              if($_COOKIE["select"] == "number") {
-                $val1 = "군번";
-              }
-              else if($_COOKIE["select"] == "name") {
-                $val1 = "이름";
-              }
-              echo $val1;
-            ?>
-          </option>
-          <option value="number">군번</option>
-          <option value="name">이름</option>
-        </select>
-        <input class="search" id="search_input" type="text" name="search" size="40" required="required" value=<?php echo $_COOKIE["value"] ?>>
-        <button class="search" id="search_button" onclick="search_click();">검색</button>
-        <button class="reset" id="reset_button" onclick="reset_click();">초기화</button>
-       </div>
-      </div>
-      <div class="table-box-wrap">
-	<div class="table-box">
-          <table>
-            <thead>
-              <tr>
-                <th>No.</th>
-                <th>군번</th>
-                <th>이름</th>
-                <th>참여구분</th>
-                <th>휴대폰</th>
-                <th>시작일시</th>
-                <th>진행시간</th>
-                <th>비고</th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php
- 	        $table = "audience";
-                $select = $_COOKIE["select"];
-                $value = $_COOKIE["value"];
-                if($value != "") {
-                  if($select == "number") {
-                    $result = query("SELECT * FROM $table WHERE end_date IS NULL AND number LIKE '%$value%'");
-                  }
-                  else if($select == "name") {
-                    $result = query("SELECT * FROM $table WHERE end_date IS NULL AND name LIKE '%$value%'");
-                  }
-                }
-                else {
-                  $result = query("SELECT * FROM $table WHERE end_date IS NULL");
-  	        }
-                $i = 0;
-                while($audience = $result->fetch_array()) {
-                  $i++;
-                  if($audience['participation'] == 0) {
-                    $participation = "전시관람";
-                  }
-                  else {
-                    $participation = "전시해설";
-                  }
+    <div id="container">
+      <div class="inner-wrap">
+        <div class="sub-contain">
+          <div id="snb">
+            <h2 class="tit">관람 관리</h2>
+            <ul class="left-menu">
+              <li><a href="/audience/audience_apply.php" class="on">관람자 관리</a></li>
+              <li><a href="/audience/audience_manage.php">관람자 확인</a></li>
+            </ul>
+          </div>
+          <div class="content-wrap" id="main-container">
+            <div class="title-area">
+              <h3 class="tit">관람자 관리</h3>
+              <div class="right">
+                <ul class="location">
+                  <li class="home"><span>home</span></li>
+                  <li >관람 관리</li>
+                  <li class="now">관람자 관리</li>
+                </ul>
+              </div>
+            </div>
+            <div class="content">
+              <div class="search-box">
+                <form name="searchForm" method="get" action="/audience/audience_apply.php">
+                  <label for="select00" class="hidden">검색어 분류</label>
+                  <select name="skey" id="select00">
+                    <option value="number">군번</option>
+                    <option value="name">이름</option>
+		  </select>
+                  <label for="write-search" class="hidden">검색어</label>
+	  	  <input type="text" id="write-search" name="sval" class="input-text" placeholder="검색어를 입력하세요" value="">
+		  <button type="submit" id="btn-search" class="btn-search">검색</button>
+                </form>
+              </div>
+              <div class="table-list">
+              <form name="tableForm" method="get" action="/audience/audience_apply.php">
+                <table summary="관람자 정보 목록">
+                <colgroup>
+                  <col width="10%" />
+                  <col width="16%" />
+                  <col width="16%" />
+                  <col width="16%" />
+                  <col width="16%" />
+                  <col width="16%" />
+                  <col width="10%" />
+		</colgroup>
+		<thead>
+		  <tr>
+                    <th>No.</th>
+                    <th>군번</th>
+                    <th>이름</th>
+                    <th>참여구분</th>
+                    <th>휴대폰</th>
+                    <th>진행시간</th>
+                    <th>비고</th>
+                  </tr>
+		</thead>
+                <tbody>
+                  <?php
+ 	            $table = "audience";
+                    $result = query("SELECT * FROM $table WHERE end_date IS NULL");
+                    for($i = 0; $audience = $result->fetch_array(); $i++) {
+                      $participation = ($audience['participation']?"전시해설":"전시관람");
 
-                  if($audience['start_date'] == NULL) {
-                    $tem = "green";
-                    $start_date = "";
-                    $progress_date="";
-                  }
-                  else {
-                    $start_date = date("m.d/H:i", strtotime($audience['start_date']));
-                    $progress_date = (strtotime(date('Y-m-d H:i:s')) - strtotime($audience['start_date']));
-                    if($progress_date/3600 >= 2) {
-                      $tem = "blue";
-                    }
-                    else {
-                      $tem = "white";
-                    }
-                  }
-              ?>
-              <tr name = table_tr>
-                <td class=<?php echo $tem ?>><?php echo $i ?></td>
-                <td class=<?php echo $tem ?>><?php echo $audience['number']; ?></td>
-                <td class=<?php echo $tem ?>><?php echo $audience['name']; ?></td>
-                <td class=<?php echo $tem ?>><?php echo $participation; ?></td>
-                <td class=<?php echo $tem ?>><?php echo $audience['phone']; ?></td>
-                <td class=<?php echo $tem ?>><?php echo $start_date; ?></td>
-                <td class=<?php echo $tem ?>><?php echo gmdate('H:i:s', $progress_date); ?></td>
-		<td class=<?php echo $tem ?>>
-                  <button onclick = <?php echo($tem."_click(".$audience['id'].");") ?>>
-                    <?php
-                      if($tem == "white") {
-                        $val2 = "초기화";
+                      if($audience['start_date'] == NULL) {
+                        $tem = "green";
                       }
-                      else if($tem == "blue") {
-                        $val2 = "종료";
+                      else {
+                        $progress_date = (strtotime(date('Y-m-d H:i:s')) - strtotime($audience['start_date']));
+                        if($progress_date/3600 >= 2) {
+                          $tem = "blue";
+                        }
+                        else {
+                          $tem = "white";
+                        }
                       }
-                      else if($tem == "green") {
-                        $val2 = "시작";
-                      }
-                      echo $val2;
-                    ?>
-                  </button>
-                </td>
-              </tr>
-              <?php } ?>
-	      <?php
-                for(; $i<=10; $i++) {
-              ?>
-    	      <tr>
-                <td class="white"> </td>
-                <td class="white"> </td>
-                <td class="white"> </td>
-                <td class="white"> </td>
-                <td class="white"> </td>
-                <td class="white"> </td>
-                <td class="white"> </td>
-                <td class="white"> </td>
-              </tr>
-              <?php } ?>
-            </tbody>
-          </table>
+                  ?>
+                  <tr name="table_tr" /*dbl*/onclick=<?php echo("table_click(".$audience['number'].");") ?>>
+                    <td class=<?php echo $tem ?>><?php echo $i; ?></td>
+                    <td class=<?php echo $tem ?>><?php echo $audience['number']; ?></td>
+                    <td class=<?php echo $tem ?>><?php echo $audience['name']; ?></td>
+                    <td class=<?php echo $tem ?>><?php echo $participation; ?></td>
+                    <td class=<?php echo $tem ?>><?php echo $audience['phone']; ?></td>
+                    <td class=<?php echo $tem ?>><?php echo gmdate('H:i:s', $progress_date); ?></td>
+                    <td class=<?php echo $tem ?> onclick="event.cancelBubble=true;">
+                      <button onclick = <?php echo($tem."_click(".$audience['number'].");") ?>>
+                        <?php
+                          switch($tem) {
+                            case "green": echo "시작"; break;
+                            case "white": echo "초기화"; break;
+                            case "blue": echo "종료"; break;
+                          }
+                        ?>
+                      </button>
+                    </td>
+                  </tr>
+                  <?php } ?>
+                </tbody>
+              </table>
+            </from>
+            </div>
+          </div>
+          <script>
+            setInterval(function() {$("#table-box").load(window.location + ' #table-box')}, 1000);
+          </script>
         </div>
       </div>
-      <script>
-        //setInterval('', 1000);
-        $(document.getElementsByName("table_tr")).dblclick(function(){
-          var str = ""
-          var tdArr = new Array();
-          var tr = $(this);
-          var td = tr.children();
-          var openWin =  window.open("popup.php?number=" + td.eq(1).text() , "name", "width=500, height=600, scrollbar=no");
-        });
-      </script>
-    </section>
+    </div>
+
+    <footer id="footer">
+      <div class="top">
+      </div>
+      <div class="bottom">
+      </div>
+    </footer>
   </body>
 </html>
+
