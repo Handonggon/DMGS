@@ -10,8 +10,6 @@
     <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
     <link rel="stylesheet" href="/css/audiencec_popup.css" type="text/css">
     <script>
-      var number = location.href.split('=')[1];
-      //document.writeln(number);
       function onlyNumber(event){
   			event = event || window.event;
   			var keyID = (event.which) ? event.which : event.keyCode;
@@ -46,7 +44,6 @@
 
   <body>
     <?php
-      #number = echo "<script>document.write(number);</script>";
       $sql = query("SELECT * FROM $table WHERE number = '$num'");
       $audience = $sql->fetch_array();
     ?>

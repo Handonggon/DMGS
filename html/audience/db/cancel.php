@@ -1,6 +1,6 @@
 <?php
   include $_SERVER['DOCUMENT_ROOT']."/css/dbconn.php";
-  $id = $_POST['form-id'];
+  $id = $_GET['form-id'];
   $table = "audience";
   echo $id;
 

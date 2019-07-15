@@ -7,9 +7,9 @@
   <head>
     <title>국군 관람 안내 시스템</title>
     <meta charset="UTF-8">
-    <script src="code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <link rel="shortcut icon" href="/images/logo.png" />
-    <link rel="stylesheet" href="/css/layout.css?var=1">
+    <link rel="stylesheet" href="/css/layout.css?var=5">
   </head>
   <body>
     <header id="header">
