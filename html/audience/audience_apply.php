@@ -1,59 +1,59 @@
-    <?php
-      include $_SERVER['DOCUMENT_ROOT']."/css/head.php";
-      $table = "audience";
-      $key = $_GET['skey'];
-      $val = $_GET['sval'];
-    ?>
-    <script>
-      function table_click(number) {
-        var openWin =  window.open("popup.php?number=" + number , "name", "width=500, height=600, scrollbar=no");
+<?php
+  include $_SERVER['DOCUMENT_ROOT']."/css/head.php";
+  $table = "audience";
+  $key = $_GET['skey'];
+  $val = $_GET['sval'];
+?>
+<script>
+  function table_click(number) {
+    var openWin =  window.open("popup.php?number=" + number , "name", "width=500, height=600, scrollbars=no");
+  }
+  function setSubmitUrl(mode, number) {
+    if(mode == "search") {
+      document.forms["search-box"].action = "/audience/audience_apply.php";
+    }
+    else if(mode == "init") {
+      document.getElementById("select-search").value = "number";
+      document.getElementById("write-search").value = "";
+      document.forms["search-box"].action = "/audience/audience_apply.php";
+    }
+    else if(mode == "blue") {
+      document.getElementById("btn-blue").value = number;
+      document.forms["tableForm"].action = "/audience/db/start_date.php";
+    }
+    else if(mode == "white") {
+      if(confirm("초기화 하시겠습니까?")) {
+        document.getElementById("btn-white").value = number;
+        document.forms["tableForm"].action = "/audience/db/init_date.php";
       }
-      function setSubmitUrl(mode, number) {
-        if(mode == "search") {
-          document.forms["search-box"].action = "/audience/audience_apply.php";
-        }
-        else if(mode == "init") {
-          document.getElementById("select-search").value = "number";
-          document.getElementById("write-search").value = "";
-          document.forms["search-box"].action = "/audience/audience_apply.php";
-        }
-        else if(mode == "blue") {
-          document.getElementById("btn-blue").value = number;
-          document.forms["tableForm"].action = "/audience/db/start_date.php";
-        }
-        else if(mode == "white") {
-          if(confirm("초기화 하시겠습니까?")) {
-            document.getElementById("btn-white").value = number;
-            document.forms["tableForm"].action = "/audience/db/init_date.php";
-          }
-        }
-        else if(mode == "red") {
-          document.getElementById("btn-red").value = number;
-          document.forms["tableForm"].action = "/audience/db/end_date.php";
-        }
-      }
-      setInterval(function(){$("#table_div").load(window.location + ' #table_div');}, 1000);
-    </script>
+    }
+    else if(mode == "red") {
+      document.getElementById("btn-red").value = number;
+      document.forms["tableForm"].action = "/audience/db/end_date.php";
+    }
+  }
+  setInterval(function(){$("#table_div").load(window.location + ' #table_div');}, 1000);
+</script>
 <html>
   <body>
     <div id="container">
       <div class="inner-wrap">
         <div class="sub-contain">
           <div id="snb">
-            <h2 class="tit">관람 관리</h2>
+            <h2 class="tit">관람자 관리</h2>
             <ul class="left-menu">
-              <li><a href="/audience/audience_apply.php" class="on">관람자 관리</a></li>
-              <li><a href="/audience/audience_manage.php">관람자 확인</a></li>
+              <li><a href="/audience/audience_apply.php" class="on">관람 관리</a></li>
+              <li><a href="/audience/audience_manage.php">관람 확인</a></li>
             </ul>
           </div>
           <div class="content-wrap" id="main-container">
             <div class="title-area">
-              <h3 class="tit">관람자 관리</h3>
+              <h3 class="tit">관람 관리</h3>
               <div class="right">
                 <ul class="location">
                   <li class="home"><span>home</span></li>
-                  <li >관람 관리</li>
-                  <li class="now">관람자 관리</li>
+                  <li >관람자 관리</li>
+                  <li class="now">관람 관리</li>
                 </ul>
               </div>
             </div>
@@ -107,7 +107,7 @@
                         else {
                           $result = query("SELECT * FROM $table WHERE end_date IS NULL");
                         }
-                        for($i = 0; $audience = $result->fetch_array(); $i++) {
+                        for($i = 1; $audience = $result->fetch_array(); $i++) {
                           $participation = ($audience['participation']?"전시해설":"전시관람");
                           if($audience['start_date'] == NULL) {
                             $tem = "blue";

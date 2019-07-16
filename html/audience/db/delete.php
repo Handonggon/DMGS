@@ -9,7 +9,7 @@
     echo "
       <script>
         alert('삭제되었습니다.');
-        opener.parent.location='/audience/audience_apply.php';
+        opener.parent.location = "/audience/audience_apply.php";
         window.close();
       </script>
     ";

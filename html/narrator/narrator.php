@@ -1,5 +1,8 @@
 <?php
-include $_SERVER['DOCUMENT_ROOT']."/css/head.php";
+  include $_SERVER['DOCUMENT_ROOT']."/css/head.php";
+  $table = "narrator";
+  $result = query("SELECT * FROM $table order by id");
+  $narrator = $result->fetch_array();
 ?>
 
 <!DOCTYPE html>
@@ -36,20 +39,44 @@ include $_SERVER['DOCUMENT_ROOT']."/css/head.php";
           cnt = cnt + 1;
         }
         for (i=1; i<=lastDate.getDate(); i++) {
-          var divDate = document.createElement('div');
+          var divDate = document.createElement('div');  //Html 태그들 생성
           var eventButton1 = document.createElement('button');
           var eventButton2 = document.createElement('button');
           divDate.classList.add('date');
           eventButton1.classList.add('event1');
           eventButton2.classList.add('event2');
-
-          cell = row.insertCell();
-          cell.appendChild(divDate);
-          cell.appendChild(eventButton1);
-          cell.appendChild(eventButton2);
-          divDate.innerHTML = i;
+          eventButton1.id = i * 2 - 1;
+          eventButton2.id = i * 2;
           eventButton1.innerHTML = firstTime;
           eventButton2.innerHTML = secondTime;
+
+          cell = row.insertCell();    //해당 행에 새로운 셀 생성
+          cell.appendChild(divDate);  //날짜 영역 추가
+          if(<?php echo $narrator;?> == 0) {    //db에 삭제할 일정이 없으면 일정들 달력에 추가
+            cell.appendChild(eventButton1);
+            cell.appendChild(eventButton2);
+          }
+          else {
+            if(<?php echo $narrator['id'];?> != eventButton1.id) {
+              cell.appendChild(eventButton1);
+            }
+            else {
+              <?php $narrator = $result->fetch_array();?>;
+            }
+            if(<?php echo $narrator;?> == 0) {
+              cell.appendChild(eventButton2);
+            }
+            else {
+              if (<?php echo $narrator['id'];?> != eventButton2.id) {
+                cell.appendChild(eventButton1);
+              }
+              else {
+                <?php $narrator = $result->fetch_array();?>;
+              }
+            }
+          }
+          divDate.innerHTML = i;    //날짜 추가
+
           cnt = cnt + 1;
           if (cnt%7 == 0)// 1주일이 7일 이므로
           row = calendar.insertRow();// 줄 추가
@@ -63,24 +90,55 @@ include $_SERVER['DOCUMENT_ROOT']."/css/head.php";
     </script>
   </head>
   <body>
-    <div id="calendar-wrap">
-      <header>
-        <h1 id="calendarYM">yyyy년 m월</h1>
-      </header>
-      <table id="calendar" boarder="3" align="center">
-        <tr id="weekdays">
-          <td align="center">일</td>
-          <td align="center">월</td>
-          <td align="center">화</td>
-          <td align="center">수</td>
-          <td align="center">목</td>
-          <td align="center">금</td>
-          <td align="center">토</td>
-        </tr>
-      </table>
-      <script language="javascript" type="text/javascript">
-        buildCalendar();
-      </script>
+    <div id="container">
+      <div class="inner-wrap">
+        <div class="sub-contain">
+          <div id="snb">
+            <h2 class="tit">전시해설 관리</h2>
+            <ul class="left-menu">
+              <li><a href="/narrator/narrator.php" class="on">해설사 관리</a></li>
+            </ul>
+          </div>
+          <div class="content-wrap" id="main-container">
+            <div class="title-area">
+              <h3 class="tit">해설사 관리</h3>
+              <div class="right">
+                <ul class="location">
+                  <li class="home"><span>home</span></li>
+                  <li class="now">전시해설 관리</li>
+                  <li class="now">해설사 관리</li>
+                </ul>
+              </div>
+            </div>
+            <div id="calendar-wrap">
+              <header>
+                <h1 id="calendarYM">yyyy년 m월</h1>
+              </header>
+              <table id="calendar" boarder="3" align="center">
+                <tr id="weekdays">
+                  <td align="center">일</td>
+                  <td align="center">월</td>
+                  <td align="center">화</td>
+                  <td align="center">수</td>
+                  <td align="center">목</td>
+                  <td align="center">금</td>
+                  <td align="center">토</td>
+                </tr>
+              </table>
+              <script language="javascript" type="text/javascript">
+                buildCalendar();
+              </script>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <footer id="footer">
+      <div class="top">
+        </div>
+          <div class="bottom">
+        </div>
+    </footer>
   </body>
 </html>

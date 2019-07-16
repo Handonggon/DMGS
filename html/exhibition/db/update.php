@@ -9,7 +9,7 @@
     echo "
       <script>
         alert('적용되었습니다.');
-        location.href = './exhibition.php';
+        location.href = '/exhibition/exhibition.php';
       </script>
     ";
   }

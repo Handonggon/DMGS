@@ -5,12 +5,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
-    <title>전시관 관리</title>
-    <script type="text/javascript">
-      function confirmSubmit(exhibitionNum) {
+    <script>
+      function confirmSubmit(exhibitionNum, isOpen) {
         var sentence = "제" + exhibitionNum + "전시관";
-        var isOpen = document.getElementsByName('exhibition_checkbox')[exhibitionNum - 1].value;  //기존 값이 넘어옴
         if(isOpen == 1) {
           sentence += "을 닫으시겠습니까?";
         }
@@ -28,29 +25,62 @@
           window.location.reload(true);
         }
       }
+function getid(form) {
+    form.checkId.checked = ((form.loginId.value = getCookie("saveid")) != "");
+    $(document.frmLogin.checkId).checkboxradio("refresh");
+}
+
     </script>
   </head>
   <body>
-    <div id="exhibition-div">
-      <form id="exhibition" action="update.php" method="post">
-        <input type="hidden" name="exhibition-num">
-        <?php
-          $result = query("SELECT * FROM $table");
-          while($exhibition = $result->fetch_array()) {
-        ?>
-          <div class="row">
-            <input type="checkbox" name="exhibition_checkbox" value=<?php echo $exhibition['is_open'];?>  onclick='confirmSubmit("<?php echo $exhibition['number'];?>")' <?php
-              if($exhibition['is_open'] == 1){
-                echo "checked";
-              }
-            ?>>
-            <span class="ex_text"><?php echo "제", $exhibition['number'], "전시관";?></span>
+    <div id="container">
+      <div class="inner-wrap">
+        <div class="sub-contain">
+          <div id="snb">
+            <h2 class="tit">전시관람 관리</h2>
+            <ul class="left-menu">
+              <li><a href="/exhibition/exhibition.php" class="on">전시관 관리</a></li>
+            </ul>
           </div>
-        <?php
-          }
-        ?>
-        <input type="hidden" name="exhibition-value">
-      </form>
+          <div class="content-wrap" id="main-container">
+            <div class="title-area">
+              <h3 class="tit">전시관 관리</h3>
+              <div class="right">
+                <ul class="location">
+                  <li class="home"><span>home</span></li>
+                  <li class="now">전시관람 관리</li>
+                  <li class="now">전시관 관리</li>
+                </ul>
+              </div>
+            </div>
+            <div class="content">
+              <form id="exhibition" action="/exhibition/db/update.php" method="post">
+                <input type="hidden" name="exhibition-num">
+                <?php
+                  $result = query("SELECT * FROM $table");
+                  while($exhibition = $result->fetch_array()) {
+                ?>
+                  <div class="row">
+                    <label for=<?php echo "check", $exhibition['number']?> class="checkbox-label">
+                      <span id="exhibition_checkbox" class="ui-icon" onclick="confirmSubmit(<?php echo $exhibition['number']; ?>, <?php echo $exhibition['is_open'] ?>)"></span>
+                      <?php echo "제", $exhibition['number'], "전시관";?>
+                    </label>
+                  </div>
+                <?php
+                  }
+                ?>
+                <input type="hidden" name="exhibition-value">
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+    <footer id="footer">
+      <div class="top">
+        </div>
+          <div class="bottom">
+        </div>
+    </footer>
   </body>
 </html>
