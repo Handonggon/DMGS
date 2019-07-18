@@ -6,7 +6,7 @@
 ?>
 <script>
   function table_click(number) {
-    var openWin =  window.open("popup.php?number=" + number , "name", "width=500, height=600, scrollbars=no");
+    var openWin =  window.open("popup.php?number=" + number +"&parent=1" , "name", "width=500, height=600, scrollbars=no");
   }
   function setSubmitUrl(mode, number) {
     if(mode == "search") {
@@ -98,14 +98,14 @@
                       <?php
                         if($val != "") {
                           if($key == "number") {
-                            $result = query("SELECT * FROM $table WHERE end_date IS NULL AND number LIKE '%$val%'");
+                            $result = query("SELECT * FROM $table WHERE end_date IS NULL AND number LIKE '%$val%' ORDER BY start_date");
                           }
                           else if($key == "name") {
-                            $result = query("SELECT * FROM $table WHERE end_date IS NULL AND name LIKE '%$val%'");
+                            $result = query("SELECT * FROM $table WHERE end_date IS NULL AND name LIKE '%$val%' ORDER BY start_date");
                           }
                         }
                         else {
-                          $result = query("SELECT * FROM $table WHERE end_date IS NULL");
+                          $result = query("SELECT * FROM $table WHERE end_date IS NULL ORDER BY start_date");
                         }
                         for($i = 1; $audience = $result->fetch_array(); $i++) {
                           $participation = ($audience['participation']?"전시해설":"전시관람");
@@ -114,7 +114,7 @@
                           }
                           else {
                             $progress_date = (strtotime(date('Y-m-d H:i:s')) - strtotime($audience['start_date']));
-                            if($progress_date/3600 >= 2) {
+                            if($progress_date/3600 >= ($audience['participation']?1:2)) {
                               $tem = "red";
                             }
                             else {

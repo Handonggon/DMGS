@@ -1,0 +1,62 @@
+* {box-sizing:border-box;}
+	
+html, body {width:100%; height:90%; margin:0; padding:0; }
+body {font-size:16px; color:#444; font-weight:400; letter-spacing:-1px; line-height:1.6; font-family:'NotoSansKR', 'Malgun Gothic', '맑은 고딕', Dotum, '돋움', sans-serif; overflow-x:hidden;}
+
+ul, ol {list-style-type:none; margin:0; padding:0; }
+b, strong {font-weight:500;}
+em {font-style:normal;}
+h1, h2, h3, h4, h5, h6 {margin:0; padding:0;}
+img {border:0;}
+iframe {display:inline-block; border:0;}
+figure, figcaption {margin:0; padding:0;}
+address {margin:0; padding:0; font-style:normal;}
+fieldset {margin:0; padding:0; border:0;}
+legend {overflow:hidden; width:0; height:0; font-size:0; line-height:0;}
+button {cursor:pointer; font-family:'NotoSansKR', 'NanumSquare', 'Malgun Gothic', '맑은 고딕', Dotum, '돋움', sans-serif;}
+label {display: inline-block; vertical-align: middle; cursor: pointer;}
+[type='checkbox'],
+[type='radio'] {vertical-align:middle;}
+input[type='file'] { border-radius: 0; -webkit-appearance: none;}
+select {border:1px solid #bec2c7; height:40px; line-height:38px; padding:0 0 0 5px}
+
+/* text-align */
+.a-l {text-align:left !important;}
+.a-r {text-align:right !important;}
+.a-c {text-align:center !important;}
+.a-j {text-align:justify !important;}
+
+/* vertical-align */
+.va-m {vertical-align:middle !important;}
+.va-t {vertical-align:top !important;}
+.va-b {vertical-align:bottom !important;}
+	
+/* clearfix */
+.clearfix {}
+.clearfix:after{display:block; clear:both; content:'';}
+
+/* float */
+.float-l {float:left !important;}
+.float-r {float:right !important;}
+
+/* ellipsis */
+.ellipsis {overflow:hidden; text-overflow:ellipsis; width:100%; white-space:nowrap; width:100%; display:block;}
+
+.popup-wrap {
+  margin: 10px 30px 10px 30px;
+}
+.popup-wrap .title-area .tit{display:inline-block; font-size:30px;}
+
+/*.popup-wrap .content {margin-top:50px;}
+*/
+/* input-table */
+.popup-wrap .content .input-table table {border-top:2px solid #273346;}
+.popup-wrap .content .input-table tr th, .input-table tr td {min-height:54px; border-bottom:1px solid #cccfd3; padding: 10px;}
+.popup-wrap .content .input-table tr th {border-right:1px solid #cccfd3;}
+.popup-wrap .content .input-table tr td input {padding-left:10px;}
+.popup-wrap .content .input-table tr td input, .input-table tr td select {min-height:38px;}
+
+.popup-wrap .content .btn-div {margin-top:20px; text-align: center;}
+.btn-blue{display:inline-block; color:#fff; background-color:#024da1; border:1px solid #024da1; padding:6px 12px; font-size:15px;}
+.btn-white{display:inline-block; color:#024da1; background-color:#fff; border:1px solid #024da1; padding:6px 12px; font-size:15px;}
+

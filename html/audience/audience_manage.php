@@ -8,11 +8,11 @@
 ?>
 <script>
   function table_click(number) {
-    var openWin =  window.open("popup.php?number=" + number , "name", "width=500, height=600, scrollbar=no");
+    var openWin =  window.open("popup.php?number=" + number +"&parent=2" , "name", "width=500, height=600, scrollbar=no");
   }
   function setSubmitUrl(mode, number) {
     if(mode == "search") {
-      document.forms["search-box"].action = "/audience/audience__manage.php";
+      document.forms["search-box"].action = "/audience/audience_manage.php";
     }
     else if(mode == "init") {
       document.getElementById("select-search").value = "number";
@@ -122,6 +122,8 @@
                     </thead>
                     <tbody>
                       <?php
+                        $fromdate = date("Y-m-d H:i:s", strtotime($fromdate)+"000000");
+                        $todate = date("Y-m-d H:i:s", strtotime($todate)+"86399");
                         if($val != "") {
                           if($key == "number") {
                             $result = query("SELECT * FROM $table WHERE end_date IS NOT NULL AND number LIKE '%$val%' AND end_date BETWEEN '$fromdate' AND '$todate'");

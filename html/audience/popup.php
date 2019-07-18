@@ -1,6 +1,7 @@
 <?php
   include $_SERVER['DOCUMENT_ROOT']."/css/dbconn.php";
   $num = $_GET['number'];
+  $parent = $_GET['parent'];
   $table = "audience";
 ?>
 <!DOCTYPE html>
@@ -8,37 +9,33 @@
   <head>
     <meta charset="UTF-8">
     <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
-    <link rel="stylesheet" href="/css/layout.css?var=7">
-    <link rel="stylesheet" href="/css/audiencec-popup.css">
+    <link rel="stylesheet" href="/css/popup.css?var=2">
+    <body onresize="parent.resizeTo(550,650)" onload="parent.resizeTo(550,650)">
     <script>
       function onlyNumber(event){
-  			event = event || window.event;
-  			var keyID = (event.which) ? event.which : event.keyCode;
-  			if ( (keyID >= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105) || keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39 )
-  				return;
-  			else
-  				return false;
-  		}
-  		function removeChar(event) {
-  			event = event || window.event;
-  			var keyID = (event.which) ? event.which : event.keyCode;
-  			if ( keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39 )
-  				return;
-  			else
-  				event.target.value = event.target.value.replace(/[^0-9]/g, "");
-  		}
+        event = event || window.event;
+  	var keyID = (event.which) ? event.which : event.keyCode;
+  	if ((keyID >= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105) || keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39 ) return;
+  	else return false;
+      }
+      function removeChar(event) {
+  	event = event || window.event;
+  	var keyID = (event.which) ? event.which : event.keyCode;
+  	if ( keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39 ) return;
+  	else event.target.value = event.target.value.replace(/[^0-9]/g, "");
+      }
       function setSubmitUrl(mode) {
         if(mode == "modify") {
           document.forms["audience_form"].action = "/audience/db/modify.php";
         }
         else if(mode == "delete") {
-          //alert("delete");
           if(confirm("삭제 하시겠습니까?")) {
             document.forms["audience_form"].action = "/audience/db/delete.php";
           }
         }
       }
     </script>
+    <link rel="shortcut icon" href="/images/logo.png" />
     <title>관람자 정보</title>
   </head>
 
@@ -57,10 +54,11 @@
               <table>
                 <cpation>군번, 이름, 참여구분, 휴대폰, 부대명, 행선지, 국군구분</cpation>
 								<colgroup>
-									<col style="width:80px;"/>
-									<col />
+									<col style="width:100px;"/>
+									<col style="width:350px;"/>
 								</colgroup>
                 <tbody>
+                  <input type="hidden" name="form-parent" value=<?php echo $parent; ?>>
                   <input type="hidden" name="form-id" value=<?php echo $audience['id'];?>>
                   <tr>
                     <th scope="row"><label for="form-num">군번</label></th>
@@ -151,9 +149,9 @@
                   </tr>
                 </tbody>
               </table>
-              <div class="btn-group mt20">
-                <button class="button w70px blue" type="submit" name="but_modify" onclick='setSubmitUrl("modify")'>수정</button>
-                <button class="button w70px ml10" type="submit" name="but_delete" onclick='setSubmitUrl("delete")'>삭제</button>
+              <div class="btn-div">
+                <button class="btn-blue w70px" type="submit" name="but_modify" onclick='setSubmitUrl("modify")'>수정</button>
+                <button class="btn-white w70px" type="submit" name="but_delete" onclick='setSubmitUrl("delete")'>삭제</button>
               </div>
             </div>
           </form>

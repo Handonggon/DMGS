@@ -96,17 +96,16 @@
           <div id="snb">
             <h2 class="tit">전시해설 관리</h2>
             <ul class="left-menu">
-              <li><a href="/narrator/narrator.php" class="on">해설사 관리</a></li>
+              <li><a href="./exhibition.php" class="on">전시해설 관리</a></li>
             </ul>
           </div>
           <div class="content-wrap" id="main-container">
             <div class="title-area">
-              <h3 class="tit">해설사 관리</h3>
+              <h3 class="tit">전시해설 관리</h3>
               <div class="right">
                 <ul class="location">
                   <li class="home"><span>home</span></li>
                   <li class="now">전시해설 관리</li>
-                  <li class="now">해설사 관리</li>
                 </ul>
               </div>
             </div>
@@ -133,7 +132,6 @@
         </div>
       </div>
     </div>
-
     <footer id="footer">
       <div class="top">
         </div>
