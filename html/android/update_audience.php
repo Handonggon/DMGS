@@ -9,10 +9,10 @@
     $result = query("UPDATE audience SET end_date = '$date' WHERE number = '$number' AND name = '$name';");
 
     if($result) {
-      echo '관람자 정보가 수정되었습니다.';
+      echo "1";
     }
     else {
-      echo '관람자 정보가 수정되지 않았습니다.';
+      echo "0";
     }
   }
   else {

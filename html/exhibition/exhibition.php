@@ -2,7 +2,6 @@
   include $_SERVER['DOCUMENT_ROOT']."/css/head.php";
   $table = "exhibition";
 ?>
-<!DOCTYPE html>
 <html>
   <head>
     <script>
@@ -130,16 +129,16 @@
                 <h5 class="tit"><strong>제1전시관</strong></h5>
                 <div class="exhibition-box">
                   <form name="exhibitionForm1" method="get">
-                    <label for="checbox1">개설 여부 :</label>
-                    <input type="checkbox" id="checbox1" name="isOpen">
-                    <label for="checbox1"></label>
-                    <input  type="text" id="input-qr1" name="location-in1" class="input-text" placeholder="" value="">
-                    <button type="submit" id="btn-qr1" name="location-btn1" class="btn-blue">입력</button>
+                    <label>개설 여부 :</label>
+                    <input type="checkbox" id="checbox" name="isOpen">
+                    <label for="checbox"></label>
+                    <input  type="text" id="input-qr" name="location-in" class="input-text" value="">
+                    <button type="submit" id="btn-qr" class="btn-blue">입력</button>
                   </form>
                 </div>
                 <div class="table-list">
-                  <form name="tableForm1" method="get">
-                    <table summary="제1전시관 테이블" id="table_div1">
+                  <form name="tableForm" method="get">
+                    <table summary="제1전시관 테이블" id="table_div">
                       <colgroup>
                         <col width="20%" />
                         <col width="60%" />

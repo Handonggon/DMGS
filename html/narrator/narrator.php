@@ -4,16 +4,12 @@
   $result = query("SELECT * FROM $table order by id");
   $narrator = $result->fetch_array();
 ?>
-
-<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>전시해설 관리</title>
     <link rel="stylesheet" href="/css/narratorc.css" type="text/css">
     <script language="javascript" type="text/javascript">
       var today = new Date(); // 오늘 날짜//지신의 컴퓨터를 기준으로
-
       function buildCalendar() {// 현재 달
         const firstTime = "11:00";
         const secondTime = "13:00";
@@ -96,42 +92,46 @@
           <div id="snb">
             <h2 class="tit">전시해설 관리</h2>
             <ul class="left-menu">
-              <li><a href="./exhibition.php" class="on">전시해설 관리</a></li>
+              <li><a href="./exhibition.php" class="on">해설사 관리</a></li>
             </ul>
           </div>
           <div class="content-wrap" id="main-container">
             <div class="title-area">
-              <h3 class="tit">전시해설 관리</h3>
+              <h3 class="tit">해설사 관리</h3>
               <div class="right">
                 <ul class="location">
                   <li class="home"><span>home</span></li>
                   <li class="now">전시해설 관리</li>
+                  <li class="now">해설사 관리</li>
                 </ul>
               </div>
             </div>
-            <div id="calendar-wrap">
-              <header>
-                <h1 id="calendarYM">yyyy년 m월</h1>
-              </header>
-              <table id="calendar" boarder="3" align="center">
-                <tr id="weekdays">
-                  <td align="center">일</td>
-                  <td align="center">월</td>
-                  <td align="center">화</td>
-                  <td align="center">수</td>
-                  <td align="center">목</td>
-                  <td align="center">금</td>
-                  <td align="center">토</td>
-                </tr>
-              </table>
-              <script language="javascript" type="text/javascript">
-                buildCalendar();
-              </script>
+            <div class="content">
+              <div id="calendar-wrap">
+                <header>
+                  <h1 id="calendarYM">yyyy년 m월</h1>
+                </header>
+                <table id="calendar" boarder="3" align="center">
+                  <tr id="weekdays">
+                    <td align="center">일</td>
+                    <td align="center">월</td>
+                    <td align="center">화</td>
+                    <td align="center">수</td>
+                    <td align="center">목</td>
+                    <td align="center">금</td>
+                    <td align="center">토</td>
+                  </tr>
+                </table>
+                <script language="javascript" type="text/javascript">
+                  buildCalendar();
+                </script>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+
     <footer id="footer">
       <div class="top">
         </div>
