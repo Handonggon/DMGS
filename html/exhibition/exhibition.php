@@ -4,7 +4,7 @@
   $sql = query("SELECT * FROM $table");
   $isOpen = [];//["0","0","0","0","0","0","0"];
   $qr = [];//["","","","","","",""];
-  $rssid = [array(), array(), array(), array(), array(), array(), array()];
+  $mac = [array(), array(), array(), array(), array(), array(), array()];
   while($exhibition = $sql->fetch_array()) {
     if($exhibition['division'] == 0) {
       $isOpen[$exhibition['number']] = $exhibition['value'];
@@ -14,7 +14,7 @@
 
     }
     else if($exhibition['division'] == 2) {
-      array_push($rssid[$exhibition['number']], array($exhibition['id'], $exhibition['value']));
+      array_push($mac[$exhibition['number']], array($exhibition['id'], $exhibition['value']));
     }
   }
 ?>
@@ -44,16 +44,16 @@
         if(mode == "enter") {
           document.getElementById("number").value = number;
           document.getElementById("value").value = $('#qrInput' + number).val();
-          document.forms["inputForm"].action = "/exhibition/db/qr_update.php";
+          document.forms["inputForm"].action = "/exhibition/db/update_qr.php";
         }
         else if(mode == "add") {
           document.getElementById("number").value = number;
-          document.getElementById("value").value = $('#rssidInput' + number).val();
-          document.forms["inputForm"].action = "/exhibition/db/rssid_add.php";
+          document.getElementById("value").value = $('#macInput' + number).val();
+          document.forms["inputForm"].action = "/exhibition/db/add_mac.php";
         }
         else if(mode == "delete") {
           document.getElementById("number").value = number;
-          document.forms["inputForm"].action = "/exhibition/db/rssid_delete.php";
+          document.forms["inputForm"].action = "/exhibition/db/delete_mac.php";
         }
       }
       $(document).ready(function(){
@@ -175,13 +175,13 @@
   	              <thead>
                         <tr>
                           <th>NO.</th>
-                          <th>Beacon RSSI</th>
+                          <th>Beacon MAC</th>
                           <th>비고</th>
                         </tr>
                       </thead>
                       <tbody>
                         <?php
-                          for($i = 1; $row =  each($rssid[1]); $i++) {
+                          for($i = 1; $row =  each($mac[1]); $i++) {
                         ?>
                           <tr>
                             <td><?php echo $i; ?></td>
@@ -193,7 +193,7 @@
                         <?php } ?>
                         <tr>
                           <td></td>
-                          <td><input id="rssidInput1"></input></td>
+                          <td><input id="macInput1"></input></td>
                           <td>
                             <button type="submit" class="btn-blue" onclick='setSubmitUrl("add", 1)'>추가</button>
                           </td>
@@ -220,13 +220,13 @@
                       <thead>
                         <tr>
                           <th>NO.</th>
-                          <th>Beacon RSSI</th>
+                          <th>Beacon MAC</th>
                           <th>비고</th>
                         </tr>
                       </thead>
                       <tbody>
                         <?php
-                          for($i = 1; $row =  each($rssid[2]); $i++) {
+                          for($i = 1; $row =  each($mac[2]); $i++) {
                         ?>
                           <tr>
                             <td><?php echo $i; ?></td>
@@ -238,7 +238,7 @@
                         <?php } ?>
                         <tr>
                           <td></td>
-                          <td><input id="rssidInput2"></input></td>
+                          <td><input id="macInput2"></input></td>
                           <td>
                             <button type="submit" class="btn-blue" onclick='setSubmitUrl("add", 2)'>추가</button>
                           </td>
@@ -265,13 +265,13 @@
                       <thead>
                         <tr>
                           <th>NO.</th>
-                          <th>Beacon RSSI</th>
+                          <th>Beacon MAC</th>
                           <th>비고</th>
                         </tr>
                       </thead>
                       <tbody>
                         <?php
-                          for($i = 1; $row =  each($rssid[3]); $i++) {
+                          for($i = 1; $row =  each($mac[3]); $i++) {
                         ?>
                           <tr>
                             <td><?php echo $i; ?></td>
@@ -283,7 +283,7 @@
                         <?php } ?>
                         <tr>
                           <td></td>
-                          <td><input id="rssidInput3"></input></td>
+                          <td><input id="macInput3"></input></td>
                           <td>
                             <button type="submit" class="btn-blue" onclick='setSubmitUrl("add", 3)'>추가</button>
                           </td>
@@ -310,13 +310,13 @@
                       <thead>
                         <tr>
                           <th>NO.</th>
-                          <th>Beacon RSSI</th>
+                          <th>Beacon MAC</th>
                           <th>비고</th>
                         </tr>
                       </thead>
                       <tbody>
                         <?php
-                          for($i = 1; $row =  each($rssid[4]); $i++) {
+                          for($i = 1; $row =  each($mac[4]); $i++) {
                         ?>
                           <tr>
                             <td><?php echo $i; ?></td>
@@ -328,7 +328,7 @@
                         <?php } ?>
                         <tr>
                           <td></td>
-                          <td><input id="rssidInput4"></input></td>
+                          <td><input id="macInput4"></input></td>
                           <td>
                             <button type="submit" class="btn-blue" onclick='setSubmitUrl("add", 4)'>추가</button>
                           </td>
@@ -355,13 +355,13 @@
                       <thead>
                         <tr>
                           <th>NO.</th>
-                          <th>Beacon RSSI</th>
+                          <th>Beacon MAC</th>
                           <th>비고</th>
                         </tr>
                       </thead>
                       <tbody>
                         <?php
-                          for($i = 1; $row =  each($rssid[5]); $i++) {
+                          for($i = 1; $row =  each($mac[5]); $i++) {
                         ?>
                           <tr>
                             <td><?php echo $i; ?></td>
@@ -373,7 +373,7 @@
                         <?php } ?>
                         <tr>
                           <td></td>
-                          <td><input id="rssidInput5"></input></td>
+                          <td><input id="macInput5"></input></td>
                           <td>
                             <button type="submit" class="btn-blue" onclick='setSubmitUrl("add", 5)'>추가</button>
                           </td>
@@ -400,13 +400,13 @@
                       <thead>
                         <tr>
                           <th>NO.</th>
-                          <th>Beacon RSSI</th>
+                          <th>Beacon MAC</th>
                           <th>비고</th>
                         </tr>
                       </thead>
                       <tbody>
                         <?php
-                          for($i = 1; $row =  each($rssid[6]); $i++) {
+                          for($i = 1; $row =  each($mac[6]); $i++) {
                         ?>
                           <tr>
                             <td><?php echo $i; ?></td>
@@ -418,7 +418,7 @@
                         <?php } ?>
                         <tr>
                           <td></td>
-                          <td><input id="rssidInput6"></input></td>
+                          <td><input id="macInput6"></input></td>
                           <td>
                             <button type="submit" class="btn-blue" onclick='setSubmitUrl("add", 6)'>추가</button>
                           </td>
