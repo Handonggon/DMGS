@@ -10,12 +10,12 @@
   }
   function setSubmitUrl(mode, number) {
     if(mode == "search") {
-      document.forms["search-box"].action = "/audience/audience_apply.php";
+      document.forms["searchForm"].action = "/audience/audience_apply.php";
     }
     else if(mode == "init") {
       document.getElementById("select-search").value = "number";
       document.getElementById("write-search").value = "";
-      document.forms["search-box"].action = "/audience/audience_apply.php";
+      document.forms["searchForm"].action = "/audience/audience_apply.php";
     }
     else if(mode == "blue") {
       document.getElementById("btn-blue").value = number;

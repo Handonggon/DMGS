@@ -87,7 +87,7 @@
         .exhibition-box input[type=checkbox] {display:none; margin:0.2em;}
         .exhibition-box input[type=checkbox] + label:before {content:"\2714"; border:2px solid #bec2c7; border-radius:0.2em; color:transparent; display:inline-block; width:20px; height:20px; vertical-align: middle;}
         .exhibition-box input[type=checkbox]:checked + label:before {display:inline-block; background-color:#024da1; border:2px solid #bec2c7; vertical-align: middle; background:#fff url('/images/bg_checkbox.png') no-repeat center;}
-        .exhibition-box .input-text {display:inline-block; width:32%; height:30px; line-height:38px; margin-left:200px; padding:0 0 0 10px; border-radius:0; border:1px solid #bec2c7; background-color:#fff; color:#444;}
+        .exhibition-box .input-text {display:inline-block; width:32%; height:30px; line-height:38px; margin-left:25px; padding:0 0 0 10px; border-radius:0; border:1px solid #bec2c7; background-color:#fff; color:#444;}
         .exhibition-box .input-text::-ms-clear {display: none;}
         .exhibition-box .input-text:focus {border-color:#bec2c7; outline:0; /* box-shadow:none; */}
 

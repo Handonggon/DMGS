@@ -16,7 +16,7 @@
         var firstDate = new Date(today.getFullYear(), today.getMonth(), 1);  // 이번 달의 첫째 날
         var lastDate = new Date(today.getFullYear(), today.getMonth()+1, 0); // 이번 달의 마지막 날
         var tableCalendar = document.getElementById("calendar");     // 테이블 달력을 만들 테이블
-        var tableCalendarYM = document.getElementById("calendarYM");    // yyyy년 m월 출력할 곳
+        var tableCalendarYM = document.getElementById("year-month");    // yyyy년 m월 출력할 곳
         tableCalendarYM.innerHTML = today.getFullYear() + "년 " + (today.getMonth() + 1) + "월";  // yyyy년 m월 출력
         // 기존 테이블에 뿌려진 줄, 칸 삭제
 
@@ -107,20 +107,34 @@
               </div>
             </div>
             <div class="content">
-              <div id="calendar-wrap">
-                <header>
-                  <h1 id="calendarYM">yyyy년 m월</h1>
-                </header>
-                <table id="calendar" boarder="3" align="center">
-                  <tr id="weekdays">
-                    <td align="center">일</td>
-                    <td align="center">월</td>
-                    <td align="center">화</td>
-                    <td align="center">수</td>
-                    <td align="center">목</td>
-                    <td align="center">금</td>
-                    <td align="center">토</td>
-                  </tr>
+              <div class="calendar-control">
+                <div class="arr-area">
+                  <span class="year-month">yyyy년 m월</span>
+                </div>
+              </div>
+              <div class="calendar-form">
+                <table id="table1" boarder="3" align="center">
+                  <caption>오늘의 해설사 일정 목록</caption>
+                  <colgroup>
+            				<col />
+            				<col />
+            				<col />
+            				<col />
+            				<col />
+            				<col />
+            				<col />
+            			</colgroup>
+                  <thead>
+                    <tr id="weekdays">
+                      <td>일</td>
+                      <td>월</td>
+                      <td>화</td>
+                      <td>수</td>
+                      <td>목</td>
+                      <td>금</td>
+                      <td>토</td>
+                    </tr>
+                  </thead>
                 </table>
                 <script language="javascript" type="text/javascript">
                   buildCalendar();

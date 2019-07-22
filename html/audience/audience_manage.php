@@ -12,14 +12,14 @@
   }
   function setSubmitUrl(mode, number) {
     if(mode == "search") {
-      document.forms["search-box"].action = "/audience/audience_manage.php";
+      document.forms["searchForm"].action = "/audience/audience_manage.php";
     }
     else if(mode == "init") {
       document.getElementById("select-search").value = "number";
       document.getElementById("write-search").value = "";
       document.getElementById("datepicker1").value = "";
       document.getElementById("datepicker2").value = "";
-      document.forms["search-box"].action = "/audience/audience_apply.php";
+      document.forms["searchForm"].action = "/audience/audience_manage.php";
     }
   }
   $.datepicker.regional['ko'] = {

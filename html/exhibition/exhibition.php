@@ -1,11 +1,27 @@
 <?php
   include $_SERVER['DOCUMENT_ROOT']."/css/head.php";
   $table = "exhibition";
+  $sql = query("SELECT * FROM $table");
+  $isOpen = [];//["0","0","0","0","0","0","0"];
+  $qr = [];//["","","","","","",""];
+  $rssid = [array(), array(), array(), array(), array(), array(), array()];
+  while($exhibition = $sql->fetch_array()) {
+    if($exhibition['division'] == 0) {
+      $isOpen[$exhibition['number']] = $exhibition['value'];
+    }
+    else if($exhibition['division'] == 1) {
+      $qr[$exhibition['number']] = $exhibition['value'];
+
+    }
+    else if($exhibition['division'] == 2) {
+      array_push($rssid[$exhibition['number']], array($exhibition['id'], $exhibition['value']));
+    }
+  }
 ?>
 <html>
   <head>
     <script>
-      function confirmSubmit(exhibitionNum, isOpen) {
+      function openSubmit(exhibitionNum, isOpen) {
         var sentence = "제" + exhibitionNum + "전시관";
         if(isOpen == 1) {
           sentence += "을 닫으시겠습니까?";
@@ -15,18 +31,30 @@
         }
         var result = confirm(sentence);
         if(result) {
-          document.getElementsByName('exhibition-num')[0].value = exhibitionNum;
-          document.getElementsByName('exhibition-value')[0].value = isOpen;
-          document.getElementById('exhibition').submit();
+          document.getElementById("number").value = exhibitionNum;
+          document.getElementById("value").value = isOpen;
+          document.forms["inputForm"].action = "/exhibition/db/open.php";
+          document.forms["inputForm"].submit();
         }
         else {
-          document.getElementsByName('exhibition_checkbox')[exhibitionNum - 1].value = isOpen;
           window.location.reload(true);
         }
       }
-      function getid(form) {
-        form.checkId.checked = ((form.loginId.value = getCookie("saveid")) != "");
-        $(document.frmLogin.checkId).checkboxradio("refresh");
+      function setSubmitUrl(mode, number) {
+        if(mode == "enter") {
+          document.getElementById("number").value = number;
+          document.getElementById("value").value = $('#qrInput' + number).val();
+          document.forms["inputForm"].action = "/exhibition/db/qr_update.php";
+        }
+        else if(mode == "add") {
+          document.getElementById("number").value = number;
+          document.getElementById("value").value = $('#rssidInput' + number).val();
+          document.forms["inputForm"].action = "/exhibition/db/rssid_add.php";
+        }
+        else if(mode == "delete") {
+          document.getElementById("number").value = number;
+          document.forms["inputForm"].action = "/exhibition/db/rssid_delete.php";
+        }
       }
       $(document).ready(function(){
         var div1Y = $("#bd-box1").offset().top;
@@ -125,19 +153,19 @@
               </div>
             </div>
             <div class="content">
-              <div class="bd-box" id="bd-box1">
-                <h5 class="tit"><strong>제1전시관</strong></h5>
-                <div class="exhibition-box">
-                  <form name="exhibitionForm1" method="get">
-                    <label>개설 여부 :</label>
-                    <input type="checkbox" id="checbox" name="isOpen">
-                    <label for="checbox"></label>
-                    <input  type="text" id="input-qr" name="location-in" class="input-text" value="">
-                    <button type="submit" id="btn-qr" class="btn-blue">입력</button>
-                  </form>
-                </div>
-                <div class="table-list">
-                  <form name="tableForm" method="get">
+              <form name="inputForm" method="get">
+                <input id="number" name="number" class="hidden">
+                <input id="value" name="value" class="hidden">
+
+                <div class="bd-box" id="bd-box1">
+                  <h5 class="tit"><strong>제1전시관</strong></h5>
+                  <div class="exhibition-box">
+                    개설 여부 :<input type="checkbox" id="checbox1" <?php echo $isOpen[1]?"checked":""; ?>>
+                    <label for="checbox1" onclick='openSubmit(1, <?php echo $isOpen[1];?>)'></label><br><br>
+                    QR 코드 :<input  type="text" class="input-text" id="qrInput1" value=<?php echo $qr[1];?>>
+                    <button type="submit" class="btn-blue" onclick='setSubmitUrl("enter", 1)'>변경</button>
+                  </div>
+                  <div class="table-list">
                     <table summary="제1전시관 테이블" id="table_div">
                       <colgroup>
                         <col width="20%" />
@@ -145,99 +173,261 @@
                         <col width="20%" />
                       </colgroup>
   	              <thead>
+                        <tr>
                           <th>NO.</th>
                           <th>Beacon RSSI</th>
                           <th>비고</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>1</td>
-                          <td>2</td>
-                          <td>
-                            <button type="submit" id="btn-delete" name="name"  class="btn-blue" onclick=''>삭제</button>
-                          <td>
-                        </tr>
-                        </tr>
+                        <?php
+                          for($i = 1; $row =  each($rssid[1]); $i++) {
+                        ?>
+                          <tr>
+                            <td><?php echo $i; ?></td>
+                            <td><?php echo $row[1][1] ?></td>
+                            <td>
+                              <button type="submit" class="btn-blue" onclick='setSubmitUrl("delete", <?php echo $row[1][0]; ?>)'>삭제</button>
+                            </td>
+                          </tr>
+                        <?php } ?>
                         <tr>
                           <td></td>
-                          <td><input></input></td>
+                          <td><input id="rssidInput1"></input></td>
                           <td>
-                            <button type="submit" id="btn-insert " name="name" class="btn-blue" onclick=''>추가</button>
-                          <td>
+                            <button type="submit" class="btn-blue" onclick='setSubmitUrl("add", 1)'>추가</button>
+                          </td>
                         </tr>
                       </thead>
-                    </form>
-                  </table>
-                </div>
-              </div>
-
-              <div class="bd-box" id="bd-box2">
-                <h5 class="tit"><strong>제2전시관</strong></h5>
-                <div class="table-list">
-                  <form name="tableForm2" method="get">
-                    <table summary="제2전시관 테이블" id="table_div2">
                     </table>
-                  </form>
+                  </div>
                 </div>
-              </div>
-              <div class="bd-box" id="bd-box3">
-                <h5 class="tit"><strong>제3전시관</strong></h5>
-                <div class="table-list">
-                  <form name="tableForm1" method="get">
-                    <table summary="제3전시관 테이블" id="table_div3">
+                <div class="bd-box" id="bd-box2">
+                  <h5 class="tit"><strong>제2전시관</strong></h5>
+                  <div class="exhibition-box">
+                    개설 여부 :<input type="checkbox" id="checbox2" <?php echo $isOpen[2]?"checked":""; ?>>
+                    <label for="checbox2" onclick='openSubmit(2, <?php echo $isOpen[2];?>)'></label><br><br>
+                    QR 코드 :<input  type="text" class="input-text" id="qrInput2" value=<?php echo $qr[2];?>>
+                    <button type="submit" class="btn-blue" onclick='setSubmitUrl("enter", 2)'>변경</button>
+                  </div>
+                  <div class="table-list">
+                    <table summary="제2전시관 테이블" id="table_div">
+                      <colgroup>
+                        <col width="20%" />
+                        <col width="60%" />
+                        <col width="20%" />
+                      </colgroup>
+                      <thead>
+                        <tr>
+                          <th>NO.</th>
+                          <th>Beacon RSSI</th>
+                          <th>비고</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <?php
+                          for($i = 1; $row =  each($rssid[2]); $i++) {
+                        ?>
+                          <tr>
+                            <td><?php echo $i; ?></td>
+                            <td><?php echo $row[1][1] ?></td>
+                            <td>
+                              <button type="submit" class="btn-blue" onclick='setSubmitUrl("delete", <?php echo $row[1][0]; ?>)'>삭제</but$
+                            </td>
+                          </tr>
+                        <?php } ?>
+                        <tr>
+                          <td></td>
+                          <td><input id="rssidInput2"></input></td>
+                          <td>
+                            <button type="submit" class="btn-blue" onclick='setSubmitUrl("add", 2)'>추가</button>
+                          </td>
+                        </tr>
+                      </thead>
                     </table>
-                  </form>
+                  </div>
                 </div>
-              </div>
-              <div class="bd-box" id="bd-box4">
-                <h5 class="tit"><strong>제4전시관</strong></h5>
-                <div class="table-list">
-                  <form name="tableForm4" method="get">
-                    <table summary="제4전시관 테이블" id="table_div4">
+                <div class="bd-box" id="bd-box3">
+                  <h5 class="tit"><strong>제3전시관</strong></h5>
+                  <div class="exhibition-box">
+                    개설 여부 :<input type="checkbox" id="checbox3" <?php echo $isOpen[3]?"checked":""; ?>>
+                    <label for="checbox3" onclick='openSubmit(3, <?php echo $isOpen[3];?>)'></label><br><br>
+                    QR 코드 :<input  type="text" class="input-text" id="qrInput3" value=<?php echo $qr[3];?>>
+                    <button type="submit" class="btn-blue" onclick='setSubmitUrl("enter", 3)'>변경</button>
+                  </div>
+                  <div class="table-list">
+                    <table summary="제3전시관 테이블" id="table_div">
+                      <colgroup>
+                        <col width="20%" />
+                        <col width="60%" />
+                        <col width="20%" />
+                      </colgroup>
+                      <thead>
+                        <tr>
+                          <th>NO.</th>
+                          <th>Beacon RSSI</th>
+                          <th>비고</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <?php
+                          for($i = 1; $row =  each($rssid[3]); $i++) {
+                        ?>
+                          <tr>
+                            <td><?php echo $i; ?></td>
+                            <td><?php echo $row[1][1] ?></td>
+                            <td>
+                              <button type="submit" class="btn-blue" onclick='setSubmitUrl("delete", <?php echo $row[1][0]; ?>)'>삭제</but$
+                            </td>
+                          </tr>
+                        <?php } ?>
+                        <tr>
+                          <td></td>
+                          <td><input id="rssidInput3"></input></td>
+                          <td>
+                            <button type="submit" class="btn-blue" onclick='setSubmitUrl("add", 3)'>추가</button>
+                          </td>
+                        </tr>
+                      </thead>
                     </table>
-                  </form>
+                  </div>
                 </div>
-              </div>
-              <div class="bd-box" id="bd-box5">
-                <h5 class="tit"><strong>제5전시관</strong></h5>
-                <div class="table-list">
-                  <form name="tableForm5" method="get">
-                    <table summary="제5전시관 테이블" id="table_div5">
+                <div class="bd-box" id="bd-box4">
+                  <h5 class="tit"><strong>제4전시관</strong></h5>
+                  <div class="exhibition-box">
+                    개설 여부 :<input type="checkbox" id="checbox4" <?php echo $isOpen[4]?"checked":""; ?>>
+                    <label for="checbox4" onclick='openSubmit(4, <?php echo $isOpen[4];?>)'></label><br><br>
+                    QR 코드 :<input  type="text" class="input-text" id="qrInput4" value=<?php echo $qr[4];?>>
+                    <button type="submit" class="btn-blue" onclick='setSubmitUrl("enter", 4)'>변경</button>
+                  </div>
+                  <div class="table-list">
+                    <table summary="제4전시관 테이블" id="table_div">
+                      <colgroup>
+                        <col width="20%" />
+                        <col width="60%" />
+                        <col width="20%" />
+                      </colgroup>
+                      <thead>
+                        <tr>
+                          <th>NO.</th>
+                          <th>Beacon RSSI</th>
+                          <th>비고</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <?php
+                          for($i = 1; $row =  each($rssid[4]); $i++) {
+                        ?>
+                          <tr>
+                            <td><?php echo $i; ?></td>
+                            <td><?php echo $row[1][1] ?></td>
+                            <td>
+                              <button type="submit" class="btn-blue" onclick='setSubmitUrl("delete", <?php echo $row[1][0]; ?>)'>삭제</but$
+                            </td>
+                          </tr>
+                        <?php } ?>
+                        <tr>
+                          <td></td>
+                          <td><input id="rssidInput4"></input></td>
+                          <td>
+                            <button type="submit" class="btn-blue" onclick='setSubmitUrl("add", 4)'>추가</button>
+                          </td>
+                        </tr>
+                      </thead>
                     </table>
-                  </form>
+                  </div>
                 </div>
-              </div>
-              <div class="bd-box" id="bd-box6">
-                <h5 class="tit"><strong>제6전시관</strong></h5>
-                <div class="table-list">
-                  <form name="tableForm6" method="get">
-                    <table summary="제6전시관 테이블" id="table_div6">
+                <div class="bd-box" id="bd-box5">
+                  <h5 class="tit"><strong>제5전시관</strong></h5>
+                  <div class="exhibition-box">
+                    개설 여부 :<input type="checkbox" id="checbox5" <?php echo $isOpen[5]?"checked":""; ?>>
+                    <label for="checbox5" onclick='openSubmit(5, <?php echo $isOpen[5];?>)'></label><br><br>
+                    QR 코드 :<input  type="text" class="input-text" id="qrInput5" value=<?php echo $qr[5];?>>
+                    <button type="submit" class="btn-blue" onclick='setSubmitUrl("enter", 5)'>변경</button>
+                  </div>
+                  <div class="table-list">
+                    <table summary="제5전시관 테이블" id="table_div">
+                      <colgroup>
+                        <col width="20%" />
+                        <col width="60%" />
+                        <col width="20%" />
+                      </colgroup>
+                      <thead>
+                        <tr>
+                          <th>NO.</th>
+                          <th>Beacon RSSI</th>
+                          <th>비고</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <?php
+                          for($i = 1; $row =  each($rssid[5]); $i++) {
+                        ?>
+                          <tr>
+                            <td><?php echo $i; ?></td>
+                            <td><?php echo $row[1][1] ?></td>
+                            <td>
+                              <button type="submit" class="btn-blue" onclick='setSubmitUrl("delete", <?php echo $row[1][0]; ?>)'>삭제</but$
+                            </td>
+                          </tr>
+                        <?php } ?>
+                        <tr>
+                          <td></td>
+                          <td><input id="rssidInput5"></input></td>
+                          <td>
+                            <button type="submit" class="btn-blue" onclick='setSubmitUrl("add", 5)'>추가</button>
+                          </td>
+                        </tr>
+                      </thead>
                     </table>
-                  </form>
+                  </div>
                 </div>
-              </div>
-
-      <form id="exhibition" action="/exhibition/db/update.php" method="post">
-        <input type="hidden" name="exhibition-num">
-        <?php
-          $result = query("SELECT * FROM $table");
-          while($exhibition = $result->fetch_array()) {
-        ?>
-          <div class="row">
-            <input type="checkbox" name="exhibition_checkbox" onclick='confirmSubmit(<?php echo $exhibition['number'].", ".$exhibition['is_open'];?>)' <?php
-              if($exhibition['is_open'] == 1){
-                echo "checked";
-              }
-            ?>>
-            <span class="ex_text"><?php echo "제", $exhibition['number'], "전시관";?></span>
-          </div>
-        <?php
-          }
-        ?>
-        <input type="hidden" name="exhibition-value">
-      </form>
-
+                <div class="bd-box" id="bd-box6">
+                  <h5 class="tit"><strong>제6전시관</strong></h5>
+                  <div class="exhibition-box">
+                    개설 여부 :<input type="checkbox" id="checbox6" <?php echo $isOpen[6]?"checked":""; ?>>
+                    <label for="checbox6" onclick='openSubmit(6, <?php echo $isOpen[6];?>)'></label><br><br>
+                    QR 코드 :<input  type="text" class="input-text" id="qrInput6" value=<?php echo $qr[6];?>>
+                    <button type="submit" class="btn-blue" onclick='setSubmitUrl("enter", 6)'>변경</button>
+                  </div>
+                  <div class="table-list">
+                    <table summary="제6전시관 테이블" id="table_div">
+                      <colgroup>
+                        <col width="20%" />
+                        <col width="60%" />
+                        <col width="20%" />
+                      </colgroup>
+                      <thead>
+                        <tr>
+                          <th>NO.</th>
+                          <th>Beacon RSSI</th>
+                          <th>비고</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <?php
+                          for($i = 1; $row =  each($rssid[6]); $i++) {
+                        ?>
+                          <tr>
+                            <td><?php echo $i; ?></td>
+                            <td><?php echo $row[1][1] ?></td>
+                            <td>
+                              <button type="submit" class="btn-blue" onclick='setSubmitUrl("delete", <?php echo $row[1][0]; ?>)'>삭제</but$
+                            </td>
+                          </tr>
+                        <?php } ?>
+                        <tr>
+                          <td></td>
+                          <td><input id="rssidInput6"></input></td>
+                          <td>
+                            <button type="submit" class="btn-blue" onclick='setSubmitUrl("add", 6)'>추가</button>
+                          </td>
+                        </tr>
+                      </thead>
+                    </table>
+                  </div>
+                </div>
+              </form>
             </div>
           </div>
         </div>
