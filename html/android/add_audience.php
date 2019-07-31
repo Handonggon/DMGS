@@ -13,7 +13,12 @@
     $result = query("INSERT INTO audience (number, name, participation, division, temper, phone, destination) VALUES ('$number', '$name', '$participation', '$division', '$temper', '$phone', '$destination')");
 
     if($result) {
-      echo "1";
+      $sql = query("SELECT * FROM audience WHERE number = '$number' AND name = '$name'");
+      if(mysqli_num_rows($sql) > 0) {
+        while($audience = $sql->fetch_array()) {
+          echo $audience['id'];
+        }
+      }
     }
     else {
       echo "0";

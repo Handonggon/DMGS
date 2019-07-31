@@ -18,17 +18,17 @@
       document.forms["searchForm"].action = "/audience/audience_apply.php";
     }
     else if(mode == "blue") {
-      document.getElementById("btn-blue").value = number;
+      document.getElementById("number").value = number;
       document.forms["tableForm"].action = "/audience/db/start_date.php";
     }
     else if(mode == "white") {
       if(confirm("초기화 하시겠습니까?")) {
-        document.getElementById("btn-white").value = number;
+        document.getElementById("number").value = number;
         document.forms["tableForm"].action = "/audience/db/init_date.php";
       }
     }
     else if(mode == "red") {
-      document.getElementById("btn-red").value = number;
+      document.getElementById("number").value = number;
       document.forms["tableForm"].action = "/audience/db/end_date.php";
     }
   }
@@ -73,6 +73,7 @@
               </div>
               <div class="table-list">
                 <form name="tableForm" method="get">
+                  <input id="number" name="number" class="hidden">
                   <table summary="관람자 정보 목록" id="table_div">
                     <colgroup>
                       <col width="10%" />
@@ -133,13 +134,13 @@
                         <?php
                           switch($tem) {
                             case "blue": ?>
-                                         <button type="submit" id="btn-blue" name="number" class="btn-blue" onclick='setSubmitUrl("blue", <?php echo $audience['number']; ?>)'>시작</button>
+                                         <button type="submit" id="btn-blue" class="btn-blue" onclick='setSubmitUrl("blue", <?php echo $audience['number']; ?>)'>시작</button>
                                          <?php break;
                             case "white": ?>
-                                         <button type="submit" id="btn-white" name="number" class="btn-blue" onclick='setSubmitUrl("white", <?php echo $audience['number']; ?>)'>초기화</button>
+                                         <button type="submit" id="btn-white" class="btn-blue" onclick='setSubmitUrl("white", <?php echo $audience['number']; ?>)'>초기화</button>
                                          <?php break;
                             case "red":  ?>
-                                         <button type="submit" id="btn-red" name="number" class="btn-blue" onclick='setSubmitUrl("red", <?php echo $audience['number']; ?>)'>종료</button>
+                                         <button type="submit" id="btn-red" class="btn-blue" onclick='setSubmitUrl("red", <?php echo $audience['number']; ?>)'>종료</button>
                                          <?php break;
                           }
                         ?>
