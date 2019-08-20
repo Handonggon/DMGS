@@ -7,8 +7,17 @@
   $todate = $_GET['todate']?$_GET['todate']:date("Y-m-d");
 ?>
 <script>
-  function table_click(number) {
-    var openWin =  window.open("popup.php?number=" + number +"&parent=2" , "name", "width=500, height=600, scrollbar=no");
+  function tr_click(id) {
+    var openWin =  window.open("popup.php?id=" + id, "tr_click_popup", "width=500, height=600, scrollbars=no, location=no, toolbar=no, status=no");
+    var g_oInterval = window.setInterval(function() {
+      try {
+        if(openWin == null || openWin.closed ) {
+          window.clearInterval(g_oInterval);
+          openWin = null;
+          $("#table_div").load(window.location + ' #table_div');
+        }
+      } catch (e) { }
+    }, 500);
   }
   function setSubmitUrl(mode, number) {
     if(mode == "search") {
@@ -64,7 +73,8 @@
           <div id="snb">
             <h2 class="tit">관람자 관리</h2>
             <ul class="left-menu">
-              <li><a href="/audience/audience_apply.php">관람 관리</a></li>
+              <li><a href="/audience/audience_view.php">일반관람 관리</a></li>
+              <li><a href="/audience/audience_commentary.php">해설관람 관리</a></li>
               <li><a href="/audience/audience_manage.php" class="on">관람 확인</a></li>
             </ul>
           </div>
@@ -101,21 +111,19 @@
                 <form name="tableForm" method="get">
                   <table summary="관람자 정보 목록" id="table_div">
                     <colgroup>
-                      <col width="10%" />
                       <col width="15%" />
-                      <col width="15%" />
-                      <col width="15%" />
-                      <col width="15%" />
-                      <col width="15%" />
-                      <col width="15%" />
+                      <col width="17%" />
+                      <col width="17%" />
+                      <col width="17%" />
+                      <col width="17%" />
+                      <col width="17%" />
                     </colgroup>
   	            <thead>
                       <tr>
                         <th>No.</th>
                         <th>군번</th>
                         <th>이름</th>
-                        <th>참여구분</th>
-                        <th>국군구분</th>
+                        <th>관람구분</th>
                         <th>휴대폰</th>
                         <th>종료일자</th>
                       </tr>
@@ -137,21 +145,14 @@
                         }
                         for($i = 1; $audience = $result->fetch_array(); $i++) {
                           $participation = ($audience['participation']?"전시해설":"전시관람");
-                          switch($audience['division']) {
-                            case "0" : $division = "육군";   break;
-                            case "1" : $division = "해군";   break;
-                            case "2" : $division = "공군";   break;
-                            case "3" : $division = "해병대"; break;
-                          }
                       ?>
-                      <tr name="table_tr" onclick=<?php echo("table_click(".$audience['number'].");") ?>>
+                      <tr name="table_tr" onclick=<?php echo("tr_click(".$audience['id'].");") ?>>
                         <td class="white"><?php echo $i; ?></td>
                         <td class="white"><?php echo $audience['number']; ?></td>
                         <td class="white"><?php echo $audience['name']; ?></td>
                         <td class="white"><?php echo $participation; ?></td>
-                        <td class="white"><?php echo $division; ?></td>
                         <td class="white"><?php echo $audience['phone']; ?></td>
-                        <td class="white"><?php echo gmdate("Y-m-d", strtotime($audience['end_date'])); ?></td>
+                        <td class="white"><?php echo date("Y-m-d", strtotime($audience['end_date'])); ?></td>
                       </tr>
                       <?php } ?>
                     </tbody>

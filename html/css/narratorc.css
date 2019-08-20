@@ -1,16 +1,55 @@
  .scheduleButton{
   width: 100%;
 }
-.hidden-button {
+.hidden-button1 {
   visibility: hidden;
-  border: none;
   width: 100%;
+  border: none;
   padding: 7px 0;
   text-align: center;
   text-decoration: none;
   display: block;
   font-size: 15px;
   margin-top: 15px;
+}
+.hidden-button2 {
+  visibility: hidden;
+  width: 100%;
+  border: none;
+  padding: 7px 0;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  font-size: 15px;
+  margin: 4px 0;
+  cursor: pointer;
+}
+
+.deleted-button1 {
+  width: 100%;
+  background-color: #4a4a4a;
+  border: none;
+  color:#000000;
+  padding: 7px 0;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  font-size: 15px;
+  margin-top: 15px;
+}
+
+.deleted-button2 {
+  width: 100%;
+  background-color: #4a4a4a;
+  border: none;
+  color:#000000;
+  padding: 7px 0;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  font-size: 15px;
+  margin: 4px 0;
+  cursor: pointer;
 }
 
 .event1 {

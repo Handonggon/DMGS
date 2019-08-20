@@ -1,14 +1,14 @@
 <?php
   include $_SERVER['DOCUMENT_ROOT']."/css/dbconn.php";
-  $number = $_GET['number'];
   $table = "audience";
+  $id = $_POST['form-id'];
   $date = date("y-m-d H:i:s");
 
-  $result = query("UPDATE $table SET end_date = '$date'  WHERE number = '$number'");
+  $result = query("UPDATE $table SET end_date = '$date'  WHERE id = '$id'");
   if($result) {
     echo "
       <script>
-        location.href='/audience/audience_apply.php';
+        window.close();
       </script>
     ";
   }

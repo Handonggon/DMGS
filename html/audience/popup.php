@@ -1,7 +1,6 @@
 <?php
   include $_SERVER['DOCUMENT_ROOT']."/css/dbconn.php";
-  $num = $_GET['number'];
-  $parent = $_GET['parent'];
+  $id = $_GET['id'];
   $table = "audience";
 ?>
 <!DOCTYPE html>
@@ -46,7 +45,7 @@
         </div>
         <div class="content">
           <?php
-            $sql = query("SELECT * FROM $table WHERE number = '$num'");
+            $sql = query("SELECT * FROM $table WHERE id = '$id'");
             $audience = $sql->fetch_array();
           ?>
           <form name="audience_form" method="post" enctype="multipart/form-data">
@@ -58,7 +57,6 @@
 									<col style="width:350px;"/>
 								</colgroup>
                 <tbody>
-                  <input type="hidden" name="form-parent" value=<?php echo $parent; ?>>
                   <input type="hidden" name="form-id" value=<?php echo $audience['id'];?>>
                   <tr>
                     <th scope="row"><label for="form-num">군번</label></th>
@@ -74,7 +72,7 @@
                   </tr>
 
                   <tr>
-                    <th scope="row">참여구분</th>
+                    <th scope="row">관람구분</th>
                     <td>
                       <input type="radio" name="form-participation" id="form-participation0" value="0"
                       <?php
@@ -103,14 +101,14 @@
                   <tr>
                     <th scope="row"><label for="form-temper">부대명</label></th>
                     <td>
-                      <input type="text" name="form-temper" id="form-temper" value=<?php echo $audience['temper'];?>>
+                      <input type="text" name="form-temper" id="form-temper" value="<?php echo $audience["temper"];?>">
                     </td>
                   </tr>
 
                   <tr>
                     <th scope="row"><label for="row-title">행선지</label></th>
                     <td>
-                      <input type="text" name="form-destination" id="form-destination" value=<?php echo $audience['destination'];?>>
+                      <input type="text" name="form-destination" id="form-destination" value="<?php echo $audience['destination'];?>">
                     </td>
                   </tr>
 

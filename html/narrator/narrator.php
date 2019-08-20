@@ -1,25 +1,29 @@
 <?php
   include $_SERVER['DOCUMENT_ROOT']."/css/head.php";
-  $table = "deleted_schedule";
-  $result = query("SELECT * FROM $table order by date, sequence");
+  $table = "schedule";
+  $result = query("SELECT * FROM $table order by date");
   $count = $result->num_rows;
-  $deleteSchedule = NULL;
+  $schedule = NULL;
   if($count == 0) { //query의 반환값이 없을 때 처리
-    $deleteSchedule = array();
-    $deleteSchedule['date'] = '-1';
-    $deleteSchedule['sequence'] = '-1';
+    $schedule = array();
+    $schedule['date'] = '-1';
+    $schedule['first_time'] = '-1';
+    $schedule['second_time'] = '-1';
   }
   else {
     $num = 0;
     $dateArr = "";
-    $seqArr = "";
-    while($deleteSchedule = $result->fetch_array()) {
+    $time1Arr = "";
+    $time2Arr = "";
+    while($schedule = $result->fetch_array()) {
       if ($diff++ != 0) {
         $dateArr .= ",";
-        $seqArr .= ",";
+        $time1Arr .= ",";
+        $time2Arr .= ",";
       }
-      $dateArr .= "'".$deleteSchedule['date']."'";
-      $seqArr .= "'".$deleteSchedule['sequence']."'";
+      $dateArr .= "'".$schedule['date']."'";
+      $time1Arr .= "'".$schedule['first_time']."'";
+      $time2Arr .= "'".$schedule['second_time']."'";
     }
   }
 ?>
@@ -33,13 +37,14 @@
         const secondTime = "13:00";
         var today = new Date(); // 오늘 날짜//지신의 컴퓨터를 기준으로
         var firstDate = new Date(today.getFullYear(), today.getMonth(), 1);  // 이번 달의 첫째 날
+        var nowDay = firstDate.getDay();                                   //첫번째 날의 요일 구함
         var lastDate = new Date(today.getFullYear(), today.getMonth()+1, 0); // 이번 달의 마지막 날
         var tableCalendar = document.getElementById("tbodyCal");     // 테이블 달력을 만들 테이블의 tbody
         var tableCalendarYM = document.getElementById("year-month");    // yyyy년 m월 출력할 곳
         tableCalendarYM.innerHTML = today.getFullYear() + "년 " + (today.getMonth() + 1) + "월";  // yyyy년 m월 출력
-        var num = 0;  //DB에서 가져온 값이 몇번째인지 - 1
         var dateArr = new Array(<?php echo $dateArr ?>);
-        var seqArr = new Array(<?php echo $seqArr ?>);
+        var seqArr1 = new Array(<?php echo $time1Arr ?>);
+        var seqArr2 = new Array(<?php echo $time2Arr ?>);
         // 기존 테이블에 뿌려진 줄, 칸 삭제
 
         /*while (tableCalendar.rows.length > 2) {
@@ -61,14 +66,6 @@
         }
 
         for (i=1; i<=lastDate.getDate(); i++) {
-          if(<?php echo $count;?> == num - 1) {
-            deleteDate = -1;
-            deleteSequence = -1;
-          }
-          else {
-            deleteDate = dateArr[num];
-            deleteSequence = seqArr[num];
-          }
           var divBox = document.createElement('div');
           var spanDay = document.createElement('span');
           var divButton = document.createElement('div');
@@ -83,20 +80,20 @@
           eventButton2.id = i * 2;
           eventButton1.onclick = function(event) {
             var thisButton = event.currentTarget;
-            if(confirm("일정을 삭제 하시겠습니까?")) {
+            if(confirm("일정을 수정 하시겠습니까?")) {
               document.getElementById("hidden-date").value = (Number(thisButton.getAttribute('id')) + 1) / 2;
               document.getElementById("hidden-sequence").value = '1';
-              document.forms["send-value"].action = "./db/db_insert.php";
+              document.forms["send-value"].action = "./db/update.php";
               document.forms["send-value"].submit();
             }
             //console.log(thisButton.getAttribute('id') + " " + (Number(thisButton.getAttribute('id')) + 1) / 2);
           }
           eventButton2.onclick = function(event) {
             var thisButton = event.currentTarget;
-            if(confirm("일정을 삭제 하시겠습니까?")) {
+            if(confirm("일정을 수정 하시겠습니까?")) {
               document.getElementById("hidden-date").value = Number(thisButton.getAttribute('id')) / 2;
               document.getElementById("hidden-sequence").value = '2';
-              document.forms["send-value"].action = "./db/db_insert.php";
+              document.forms["send-value"].action = "./db/update.php";
               document.forms["send-value"].submit();
             }
           }
@@ -118,29 +115,32 @@
             cell.classList.add('sat');
           }
           cell.appendChild(divBox);  //날짜 영역 추가
-          console.log(i + " " + deleteDate + " " + deleteSequence);
-          if(deleteDate == i) {
-            if(deleteSequence == 1) {
+
+          if(nowDay == 6 || nowDay == 0 || nowDay == 1) { //토, 일, 월인 경우 달력에 버튼을 안띄움
+            eventButton1.classList.remove('event1');
+            eventButton1.classList.add('hidden-button1');
+            eventButton2.classList.remove('event2');
+            eventButton2.classList.add('hidden-button2');
+          }
+          else{
+            if(seqArr1[i - 1] == 0) { //일정이 없는 경우에 대한 처리
               eventButton1.classList.remove('event1');
-              eventButton1.classList.add('hidden-button');
-              num++;
-              console.log(i + " 1");
+              eventButton1.classList.add('deleted-button1');
             }
-            else{
+            if(seqArr2[i - 1] == 0) {
               eventButton2.classList.remove('event2');
-              eventButton2.classList.add('hidden-button');
-              num++;
-              console.log(i + " 2");
+              eventButton2.classList.add('deleted-button2');
             }
           }
           spanDay.innerHTML = i;    //날짜 추가
 
+          nowDay = (nowDay + 1) % 7;
           cnt = cnt + 1;
           if (cnt%7 == 0)// 1주일이 7일 이므로
             row = tableCalendar.insertRow();// 줄 추가
         }
 
-        for(i=lastDate.getDate() % 7 + 1 ; i < 7 ; i++) {
+        for(i=lastDate.getDay() % 7 + 1 ; i < 7 ; i++) {
           var divBox = document.createElement('div');
           divBox.classList.add('box');
           cell = row.insertCell();
@@ -173,7 +173,7 @@
               </div>
             </div>
             <div class="content">
-              <form class="send-value" name="send-value" action="./db/db_insert.php" method="post">
+              <form class="send-value" name="send-value" action="./db/update.php" method="post">
                 <input type="hidden" name="date" id="hidden-date">
                 <input type="hidden" name="sequence" id="hidden-sequence">
               </form>
@@ -209,7 +209,7 @@
                   </tbody>
                 </table>
                 <div class="ico-area">
-			             <button type="button" name="reset" class="btn-blue" onclick="location.href='./db/db_delete.php'">초기화</button>
+			             <button type="button" name="reset" class="btn-blue" onclick="location.href='./db/rollback.php'">초기화</button>
 		            </div>
                 <script language="javascript" type="text/javascript">
                   buildCalendar();

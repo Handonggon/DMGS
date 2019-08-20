@@ -79,6 +79,10 @@
         .search-box .btn-init{width:50px; height:40px; display:inline-block; vertical-align: top; font-size:0; border:1px solid #bec2c7; background:#fff url('/images/btn-sb-init.png') no-repeat center;}
         .search-box img{margin-top:15px;}
 
+        /* information-box */
+        .information-box{margin-bottom:10px;}
+        .information-box h3{text-align: right;}
+
         /* exhibition-box */
         .exhibition-box{background-color:#f5f7fa; padding:20px 60px; margin-bottom:30px;}
         .exhibition-box input{display:inline-block; vertical-align: top; }
@@ -90,6 +94,19 @@
         .exhibition-box .input-text {display:inline-block; width:32%; height:30px; line-height:38px; margin-left:25px; padding:0 0 0 10px; border-radius:0; border:1px solid #bec2c7; background-color:#fff; color:#444;}
         .exhibition-box .input-text::-ms-clear {display: none;}
         .exhibition-box .input-text:focus {border-color:#bec2c7; outline:0; /* box-shadow:none; */}
+
+				/* survey-box */
+				.survey-box{background-color:#f5f7fa; padding:20px 60px; margin-bottom:30px;}
+				.survey-box input{display:inline-block; vertical-align: top; }
+				.survey-box .btn-blue{display:inline-block; color:#fff; background-color:#024da1; border:1px solid #024da1; padding:6px 12px; font-size:13px;}
+				.survey-box input[type=checkbox] + label {display:inline-block; font-size:13px; display:inline-block; vertical-align: middle; margin-left:10px;}
+				.survey-box input[type=checkbox] {display:none; margin:0.2em;}
+				.survey-box input[type=checkbox] + label:before {content:"\2714"; border:2px solid #bec2c7; border-radius:0.2em; color:transparent; display:inline-block; width:20px; height:20px; vertical-align: middle;}
+				.survey-box input[type=checkbox]:checked + label:before {display:inline-block; background-color:#024da1; border:2px solid #bec2c7; vertical-align: middle; background:#fff url('/images/bg_checkbox.png') no-repeat center;}
+				.survey-box .input-text {display:inline-block; width:32%; height:30px; line-height:38px; margin-left:70px; padding:0 0 0 10px; border-radius:0; border:1px solid #bec2c7; background-color:#fff; color:#444;}
+				.survey-box .input-text::-ms-clear {display: none;}
+				.survey-box .input-text:focus {border-color:#bec2c7; outline:0; /* box-shadow:none; */}
+				.survey-box .input-text:disabled {background-color:#bec2c7;}
 
 /* ==========================================================================
 	layout
@@ -109,7 +126,7 @@
 	#header .bottom .right {float:right; margin-top:12px;}
 
 	#gnb ul{padding-left:30px;}
-	#gnb ul li {float:left; padding:0 100px;}
+	#gnb ul li {float:left; padding:0 80px;}
 	#gnb ul li a{display:inline-block; color:#333; font-weight:bold; font-size:20px; padding:15px 0; border-bottom:4px solid #fff; font-family:'NanumSquare'; letter-spacing:0.5px;}
 	#gnb ul li a:hover,
 	#gnb ul li.on a{border-bottom:4px solid #273346;}
