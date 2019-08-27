@@ -1,7 +1,7 @@
 <?php
   include $_SERVER['DOCUMENT_ROOT']."/css/dbconn.php";
-  $date = $_POST['date'];
-  $sequence = $_POST['sequence'];
+  $date = addslashes($_POST['date']);
+  $sequence = addslashes($_POST['sequence']);
   $table = "schedule";
 
   $result = query("SELECT * FROM $table WHERE date = '$date'");

@@ -1,8 +1,8 @@
 <?php
   include $_SERVER['DOCUMENT_ROOT']."/css/head.php";
   $table = "audience";
-  $key = $_GET['skey'];
-  $val = $_GET['sval'];
+  $key = addslashes($_GET['skey']);
+  $val = addslashes($_GET['sval']);
 ?>
 <script>
   function search_click(mod, id) {

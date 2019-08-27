@@ -1,10 +1,10 @@
 <?php
   include $_SERVER['DOCUMENT_ROOT']."/css/head.php";
   $table = "audience";
-  $key = $_GET['skey'];
-  $val = $_GET['sval'];
-  $fromdate = $_GET['fromdate']?$_GET['fromdate']:date("Y-m-d", strtotime("-3 month", time()));
-  $todate = $_GET['todate']?$_GET['todate']:date("Y-m-d");
+  $key = addslashes($_GET['skey']);
+  $val = addslashes($_GET['sval']);
+  $fromdate = addslashes($_GET['fromdate']?$_GET['fromdate']:date("Y-m-d", strtotime("-3 month", time())));
+  $todate = addslashes($_GET['todate']?$_GET['todate']:date("Y-m-d"));
 ?>
 <script>
   function tr_click(id) {

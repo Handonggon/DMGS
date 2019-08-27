@@ -1,6 +1,6 @@
 <?php
   include $_SERVER['DOCUMENT_ROOT']."/css/dbconn.php";
-  $id = $_GET['id'];
+  $id = addslashes($_GET['id']);
   $table = "audience";
 ?>
 <!DOCTYPE html>

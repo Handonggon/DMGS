@@ -10,6 +10,6 @@
     echo json_encode(array('result'=>$result), JSON_PRETTY_PRINT+JSON_UNESCAPED_UNICODE);
   }
   else {
-    echo 'PSOT Request가 아닙니다.';
+    echo 'PSOT Request';
   }
  ?>

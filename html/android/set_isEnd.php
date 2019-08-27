@@ -1,8 +1,9 @@
 <?php
+  date_default_timezone_set('Asia/Seoul');
   include $_SERVER['DOCUMENT_ROOT']."/css/dbconn.php";
 
   if($_SERVER['REQUEST_METHOD'] == 'POST'){
-    $id = $_POST['id'];
+    $id = addslashes($_POST['id']);
     $date = date("y-m-d h:i:s");
 
     $result = query("UPDATE audience SET end_date = '$date' WHERE id = '$id';");
@@ -15,6 +16,6 @@
     }
   }
   else {
-    echo 'PSOT Request가 아닙니다.';
+    echo 'PSOT Request';
   }
 ?>

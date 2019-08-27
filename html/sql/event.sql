@@ -1,3 +1,5 @@
+SET GLOBAL event_scheduler = on;
+
 CREATE EVENT IF NOT EXISTS delete_audience
   ON SCHEDULE
      EVERY 12 HOUR

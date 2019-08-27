@@ -2,7 +2,7 @@
   include $_SERVER['DOCUMENT_ROOT']."/css/dbconn.php";
 
   if($_SERVER['REQUEST_METHOD'] == 'POST'){
-    $id = $_POST['id'];
+    $id = addslashes($_POST['id']);
 
     $sql = query("SELECT * FROM audience WHERE id = '$id'");
 
@@ -18,6 +18,6 @@
     }
   }
   else {
-    echo 'PSOT Request가 아닙니다.';
+    echo 'PSOT Request';
   }
 ?>

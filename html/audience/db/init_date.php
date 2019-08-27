@@ -1,7 +1,7 @@
 <?php
   include $_SERVER['DOCUMENT_ROOT']."/css/dbconn.php";
   $table = "audience";
-  $id = $_POST['form-id'];
+  $id = addslashes($_POST['form-id']);
 
   $result = query("UPDATE $table SET start_date = NULL WHERE id = '$id'");
   if($result != 0) {
