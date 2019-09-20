@@ -8,6 +8,7 @@
   if($result) {
     echo "
       <script>
+        opener.parent.location.reload();
         window.close();
       </script>
     ";

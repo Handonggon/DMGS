@@ -9,7 +9,7 @@
     <meta charset="UTF-8">
     <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
     <link rel="stylesheet" href="/css/popup.css?var=2">
-    <body onresize="parent.resizeTo(550,650)" onload="parent.resizeTo(550,650)">
+    <body onresize="parent.resizeTo(550,700)" onload="parent.resizeTo(550,700)">
     <script>
       function onlyNumber(event){
         event = event || window.event;

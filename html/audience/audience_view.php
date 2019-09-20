@@ -14,7 +14,7 @@
       document.forms["searchForm"].action = window.location.href;
   }
   function tr_click(id) {
-    window.open("popup.php?id=" + id, "tr_click_popup", "width=500, height=600, scrollbars=no, location=no, toolbar=no, status=no");
+    window.open("popup.php?id=" + id, "tr_click_popup", "width=550,  height=650, scrollbars=no, location=no, toolbar=no, status=no");
   }
   function tr_btn_click(mod, id) {
     switch(mod) {
@@ -29,11 +29,8 @@
     window.open("","tr_btn_click_popup");
     document.getElementById("form-id").value = id;
     frmPop.action = url;
-    frmPop.target = "tr_btn_click_popup"
+    frmPop.target = "tr_btn_click_popup";
     frmPop.submit();
-
-    $("#table_div").load(window.location + ' #table_div');
-    $("#information-box").load(window.location + ' #information-box');
   }
   setInterval(function(){$("#table_div").load(window.location + ' #table_div');}, 1000);
 </script>
@@ -48,19 +45,19 @@
           <div id="snb">
             <h2 class="tit">관람자 관리</h2>
             <ul class="left-menu">
-              <li><a href="/audience/audience_view.php" class="on">일반관람 관리</a></li>
-              <li><a href="/audience/audience_commentary.php" >해설관람 관리</a></li>
-              <li><a href="/audience/audience_manage.php">관람 확인</a></li>
+              <li><a href="/audience/audience_view.php" class="on">일반관람자 관리</a></li>
+              <li><a href="/audience/audience_commentary.php" >해설관람자 관리</a></li>
+              <li><a href="/audience/audience_manage.php">관람자 확인</a></li>
             </ul>
           </div>
           <div class="content-wrap" id="main-container">
             <div class="title-area">
-              <h3 class="tit">일반관람 관리</h3>
+              <h3 class="tit">일반관람자 관리</h3>
               <div class="right">
                 <ul class="location">
                   <li class="home"><span>home</span></li>
                   <li>관람자 관리</li>
-                  <li class="now">일반관람 관리</li>
+                  <li class="now">일반관람자 관리</li>
                 </ul>
               </div>
             </div>
@@ -86,7 +83,7 @@
                 <h3>관람자 현황 <신청자 : <?php echo($sql2) ?>, 관람자 : <?php echo($sql1-$sql2) ?>></h3>
               </div>
               <div class="table-list">
-                <form name="tableForm" method="post"  enctype="multipart/form-data">
+                <form name="tableForm" method="post" enctype="multipart/form-data">
                   <input type="hidden" name="form-id" id="form-id">
                   <table summary="관람자 정보 목록" id="table_div">
                     <colgroup>

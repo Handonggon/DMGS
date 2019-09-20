@@ -115,22 +115,20 @@
             cell.classList.add('sat');
           }
           cell.appendChild(divBox);  //날짜 영역 추가
-
-          if(nowDay == 6 || nowDay == 0 || nowDay == 1) { //토, 일, 월인 경우 달력에 버튼을 안띄움
+          /*
+          if(nowDay == 6 || nowDay == 0 || nowDay == 1) { //토, 일, 월인 경우 달력에 버튼 deleted로
             eventButton1.classList.remove('event1');
-            eventButton1.classList.add('hidden-button1');
+            eventButton1.classList.add('deleted-button1');
             eventButton2.classList.remove('event2');
-            eventButton2.classList.add('hidden-button2');
+            eventButton2.classList.add('deleted-button2');
+          }*/
+          if(seqArr1[i - 1] == 0) { //일정이 없는 경우에 대한 처리
+            eventButton1.classList.remove('event1');
+            eventButton1.classList.add('deleted-button1');
           }
-          else{
-            if(seqArr1[i - 1] == 0) { //일정이 없는 경우에 대한 처리
-              eventButton1.classList.remove('event1');
-              eventButton1.classList.add('deleted-button1');
-            }
-            if(seqArr2[i - 1] == 0) {
-              eventButton2.classList.remove('event2');
-              eventButton2.classList.add('deleted-button2');
-            }
+          if(seqArr2[i - 1] == 0) {
+            eventButton2.classList.remove('event2');
+            eventButton2.classList.add('deleted-button2');
           }
           spanDay.innerHTML = i;    //날짜 추가
 

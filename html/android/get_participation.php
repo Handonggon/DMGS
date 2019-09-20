@@ -9,8 +9,8 @@
     if(mysqli_num_rows($sql) > 0) {
       $result = array();
       while($audience = $sql->fetch_array()) {
-        if($audience['start_date'] != NULL) {
-          echo $audience['start_date'];
+        if($audience['participation'] != NULL) {
+          echo $audience['participation'];
         }
         else {
           echo '0';

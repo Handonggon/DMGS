@@ -14,10 +14,10 @@
       echo json_encode(array('result'=>$result), JSON_PRETTY_PRINT+JSON_UNESCAPED_UNICODE);
     }
     else {
-      echo '0';
+      echo '-1';
     }
   }
   else {
-    echo 'PSOT Request';
+    echo '-1';
   }
 ?>

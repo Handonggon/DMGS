@@ -4,7 +4,7 @@
 <html>
   <body>
     <div id="container">
-      <img src="/images/mainImg.gif">
+      <img src="/images/mainImg.gif" class="mainimg">
     </div>
   </body>
 </html>

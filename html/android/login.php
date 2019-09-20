@@ -6,7 +6,6 @@
     $name = addslashes($_POST['name']);
 
     $sql = query("SELECT * FROM audience WHERE number = '$number' AND name = '$name'");
-
     if(mysqli_num_rows($sql) > 0) {
       while($audience = $sql->fetch_array()) {
         echo $audience['id'];
@@ -17,6 +16,6 @@
     }
   }
   else {
-    echo 'PSOT Request';
+    echo '-1';
   }
 ?>

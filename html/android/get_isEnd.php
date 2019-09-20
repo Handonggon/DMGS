@@ -18,10 +18,10 @@
       }
     }
     else {
-      echo '0';
+      echo '-1';
     }
   }
   else {
-    echo 'PSOT Request';
+    echo '-1';
   }
 ?>

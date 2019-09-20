@@ -30,7 +30,7 @@
           <nav id="gnb">
 	    <ul>
 	      <li><a href="/audience/audience_view.php">관람자 관리</a></li>
-	      <li><a href="/exhibition/exhibition.php">전시관람 관리</a></li>
+	      <li><a href="/exhibition/exhibition.php">일반관람 관리</a></li>
 	      <li><a href="/narrator/narrator.php">전시해설 관리</a></li>
               <li><a href="/survey/survey.php">설문 관리</a></li>
             </ul>

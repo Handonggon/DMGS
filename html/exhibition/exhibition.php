@@ -18,110 +18,121 @@
     }
   }
 ?>
+<script>
+  function openSubmit(exhibitionNum, isOpen) {
+    var sentence = "제" + exhibitionNum + "전시관";
+    if(isOpen == 1) {
+      sentence += "을 닫으시겠습니까?";
+    }
+    else {
+      sentence += "을 여시겠습니까?";
+    }
+    var result = confirm(sentence);
+    if(result) {
+      var frmPop = document.inputForm;
+      window.open("","openSubmit_popup");
+      document.getElementById("number").value = exhibitionNum;
+      document.getElementById("value").value = isOpen;
+      frmPop.action = "./db/open.php";
+      frmPop.target = "openSubmit_popup";
+      frmPop.submit();
+    }
+    else {
+      window.location.reload();
+    }
+  }
+
+  function setSubmitUrl(mod, number) {
+    var frmPop = document.inputForm;
+    window.open("","setSubmitUrl_popup");
+    if(mod == "enter") {
+      document.getElementById("number").value = number;
+      document.getElementById("value").value = $('#qrInput' + number).val();
+      var url = "./db/update_qr.php";
+    }
+    else if(mod == "add") {
+      document.getElementById("number").value = number;
+      document.getElementById("value").value = $('#macInput' + number).val();
+      var url = "./db/add_mac.php";
+    }
+    else if(mod == "delete") {
+      document.getElementById("number").value = number;
+      var url = "./db/delete_mac.php";
+    }
+    frmPop.action = url;
+    frmPop.target = "setSubmitUrl_popup";
+    frmPop.submit();
+  }
+  $(document).ready(function(){
+    var div1Y = $("#bd-box1").offset().top;
+    var div2Y = $("#bd-box2").offset().top;
+    var div3Y = $("#bd-box3").offset().top;
+    var div4Y = $("#bd-box4").offset().top;
+    var div5Y = $("#bd-box5").offset().top;
+    var div6Y = $("#bd-box6").offset().top;
+    $(document).scroll(function(){
+      var scrollPosition = $(this).scrollTop() + window.innerHeight / 2;
+      if(scrollPosition >= div6Y) {
+       class_init();
+       $("#li6 a").attr('class', 'on');
+      }
+      else if(scrollPosition >= div5Y) {
+        class_init();
+        $("#li5 a").attr('class', 'on');
+      }
+      else if(scrollPosition >= div4Y) {
+        class_init();
+        $("#li4 a").attr('class', 'on');
+      }
+      else if(scrollPosition >= div3Y) {
+        class_init();
+        $("#li3 a").attr('class', 'on');
+      }
+      else if(scrollPosition >= div2Y) {
+        class_init();
+        $("#li2 a").attr('class', 'on');
+      }
+      else if(scrollPosition >= div1Y) {
+        class_init();
+        $("#li1 a").attr('class', 'on');
+      }
+      else if(scrollPosition >= 0) {
+        class_init();
+      }
+    });
+    $("#li1").click(function(){
+      $('html').animate({scrollTop : div1Y-window.innerHeight/2+100}, 400);
+    });
+    $("#li2").click(function(){
+      $('html, body').animate({scrollTop : div2Y-window.innerHeight/2+100}, 400);
+    });
+    $("#li3").click(function(){
+      $('html, body').animate({scrollTop : div3Y-window.innerHeight/2+100}, 400);
+    });
+    $("#li4").click(function(){
+      $('html, body').animate({scrollTop : div4Y-window.innerHeight/2+100}, 400);
+    });
+    $("#li5").click(function(){
+      $('html, body').animate({scrollTop : div5Y-window.innerHeight/2+100}, 400);
+    });
+    $("#li6").click(function(){
+      $('html, body').animate({scrollTop : div6Y-window.innerHeight/2+100}, 400);
+    });
+  });
+  function class_init(){
+    $("#li1 a").attr('class', 'off');
+    $("#li2 a").attr('class', 'off');
+    $("#li3 a").attr('class', 'off');
+    $("#li4 a").attr('class', 'off');
+    $("#li5 a").attr('class', 'off');
+    $("#li6 a").attr('class', 'off');
+  }
+</script>
 <html>
-  <head>
-    <script>
-      function openSubmit(exhibitionNum, isOpen) {
-        var sentence = "제" + exhibitionNum + "전시관";
-        if(isOpen == 1) {
-          sentence += "을 닫으시겠습니까?";
-        }
-        else {
-          sentence += "을 여시겠습니까?";
-        }
-        var result = confirm(sentence);
-        if(result) {
-          document.getElementById("number").value = exhibitionNum;
-          document.getElementById("value").value = isOpen;
-          document.forms["inputForm"].action = "/exhibition/db/open.php";
-          document.forms["inputForm"].submit();
-        }
-        else {
-          window.location.reload(true);
-        }
-      }
-      function setSubmitUrl(mode, number) {
-        if(mode == "enter") {
-          document.getElementById("number").value = number;
-          document.getElementById("value").value = $('#qrInput' + number).val();
-          document.forms["inputForm"].action = "/exhibition/db/update_qr.php";
-        }
-        else if(mode == "add") {
-          document.getElementById("number").value = number;
-          document.getElementById("value").value = $('#macInput' + number).val();
-          document.forms["inputForm"].action = "/exhibition/db/add_mac.php";
-        }
-        else if(mode == "delete") {
-          document.getElementById("number").value = number;
-          document.forms["inputForm"].action = "/exhibition/db/delete_mac.php";
-        }
-      }
-      $(document).ready(function(){
-        var div1Y = $("#bd-box1").offset().top;
-        var div2Y = $("#bd-box2").offset().top;
-        var div3Y = $("#bd-box3").offset().top;
-        var div4Y = $("#bd-box4").offset().top;
-        var div5Y = $("#bd-box5").offset().top;
-        var div6Y = $("#bd-box6").offset().top;
-        $(document).scroll(function(){
-          var scrollPosition = $(this).scrollTop() + window.innerHeight / 2;
-            if(scrollPosition >= div6Y) {
-             class_init();
-             $("#li6 a").attr('class', 'on');
-            }
-            else if(scrollPosition >= div5Y) {
-              class_init();
-              $("#li5 a").attr('class', 'on');
-            }
-            else if(scrollPosition >= div4Y) {
-              class_init();
-              $("#li4 a").attr('class', 'on');
-            }
-            else if(scrollPosition >= div3Y) {
-              class_init();
-              $("#li3 a").attr('class', 'on');
-            }
-            else if(scrollPosition >= div2Y) {
-              class_init();
-              $("#li2 a").attr('class', 'on');
-            }
-            else if(scrollPosition >= div1Y) {
-              class_init();
-              $("#li1 a").attr('class', 'on');
-            }
-            else if(scrollPosition >= 0) {
-              class_init();
-            }
-          });
-        $("#li1").click(function(){
-           $('html').animate({scrollTop : div1Y-window.innerHeight/2+100}, 400);
-        });
-        $("#li2").click(function(){
-           $('html, body').animate({scrollTop : div2Y-window.innerHeight/2+100}, 400);
-        });
-        $("#li3").click(function(){
-           $('html, body').animate({scrollTop : div3Y-window.innerHeight/2+100}, 400);
-        });
-        $("#li4").click(function(){
-           $('html, body').animate({scrollTop : div4Y-window.innerHeight/2+100}, 400);
-        });
-        $("#li5").click(function(){
-           $('html, body').animate({scrollTop : div5Y-window.innerHeight/2+100}, 400);
-        });
-        $("#li6").click(function(){
-           $('html, body').animate({scrollTop : div6Y-window.innerHeight/2+100}, 400);
-        });
-      });
-      function class_init() {
-        $("#li1 a").attr('class', 'off');
-        $("#li2 a").attr('class', 'off');
-        $("#li3 a").attr('class', 'off');
-        $("#li4 a").attr('class', 'off');
-        $("#li5 a").attr('class', 'off');
-        $("#li6 a").attr('class', 'off');
-      }
-    </script>
-  </head>
+  <header>
+    <iframe width=0 height=0 name="openSubmit_popup" style="display:none;"></iframe>
+    <iframe width=0 height=0 name="setSubmitUrl_popup" style="display:none;"></iframe>
+  </header>
   <body>
     <div id="container">
       <div class="inner-wrap">
@@ -153,7 +164,7 @@
               </div>
             </div>
             <div class="content">
-              <form name="inputForm" method="get">
+              <form name="inputForm" method="post" enctype="multipart/form-data">
                 <input id="number" name="number" class="hidden">
                 <input id="value" name="value" class="hidden">
 

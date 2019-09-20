@@ -8,7 +8,7 @@
 ?>
 <script>
   function tr_click(id) {
-    var openWin =  window.open("popup.php?id=" + id, "tr_click_popup", "width=500, height=600, scrollbars=no, location=no, toolbar=no, status=no");
+    var openWin =  window.open("popup.php?id=" + id, "tr_click_popup", "width=550,  height=650, scrollbars=no, location=no, toolbar=no, status=no");
     var g_oInterval = window.setInterval(function() {
       try {
         if(openWin == null || openWin.closed ) {
@@ -73,19 +73,19 @@
           <div id="snb">
             <h2 class="tit">관람자 관리</h2>
             <ul class="left-menu">
-              <li><a href="/audience/audience_view.php">일반관람 관리</a></li>
-              <li><a href="/audience/audience_commentary.php">해설관람 관리</a></li>
-              <li><a href="/audience/audience_manage.php" class="on">관람 확인</a></li>
+              <li><a href="/audience/audience_view.php">일반관람자 관리</a></li>
+              <li><a href="/audience/audience_commentary.php">해설관람자 관리</a></li>
+              <li><a href="/audience/audience_manage.php" class="on">관람자 확인</a></li>
             </ul>
           </div>
           <div class="content-wrap" id="main-container">
             <div class="title-area">
-	      <h3 class="tit">관람 확인</h3>
+	      <h3 class="tit">관람자 확인</h3>
 	      <div class="right">
                 <ul class="location">
 	          <li class="home"><span>home</span></li>
 	          <li >관람자 관리</li>
-	          <li class="now">관람 확인</li>
+	          <li class="now">관람자 확인</li>
                 </ul>
               </div>
             </div>
