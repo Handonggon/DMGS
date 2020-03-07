@@ -32,6 +32,7 @@
     frmPop.target = "tr_btn_click_popup";
     frmPop.submit();
   }
+  setInterval(function(){$("#information-box").load(window.location + ' #information-box');}, 1000);
   setInterval(function(){$("#table_div").load(window.location + ' #table_div');}, 1000);
 </script>
 <html>

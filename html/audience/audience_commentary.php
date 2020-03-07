@@ -35,6 +35,7 @@
     $("#table_div").load(window.location + ' #table_div');
     $("#information-box").load(window.location + ' #information-box');
   }
+  setInterval(function(){$("#information-box").load(window.location + ' #information-box');}, 1000);
   setInterval(function(){$("#table_div").load(window.location + ' #table_div');}, 1000);
 </script>
 <html>

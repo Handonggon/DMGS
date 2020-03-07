@@ -4,7 +4,6 @@
   $sql = query("SELECT * FROM $table");
   $isOpen = [];//["0","0","0","0","0","0","0"];
   $qr = [];//["","","","","","",""];
-  $mac = [array(), array(), array(), array(), array(), array(), array()];
   while($exhibition = $sql->fetch_array()) {
     if($exhibition['division'] == 0) {
       $isOpen[$exhibition['number']] = $exhibition['value'];
@@ -12,9 +11,6 @@
     else if($exhibition['division'] == 1) {
       $qr[$exhibition['number']] = $exhibition['value'];
 
-    }
-    else if($exhibition['division'] == 2) {
-      array_push($mac[$exhibition['number']], array($exhibition['id'], $exhibition['value']));
     }
   }
 ?>
@@ -45,23 +41,27 @@
   function setSubmitUrl(mod, number) {
     var frmPop = document.inputForm;
     window.open("","setSubmitUrl_popup");
+    frmPop.target = "setSubmitUrl_popup";
     if(mod == "enter") {
       document.getElementById("number").value = number;
       document.getElementById("value").value = $('#qrInput' + number).val();
-      var url = "./db/update_qr.php";
+      frmPop.action = "./db/update_qr.php";
+      frmPop.submit();
     }
     else if(mod == "add") {
-      document.getElementById("number").value = number;
-      document.getElementById("value").value = $('#macInput' + number).val();
-      var url = "./db/add_mac.php";
+      window.open("but_popup.php?number=" + number, "but_click_popup", "width=550,  height=650, scrollbars=no, location=no, toolbar=no, status=no");
+    }
+    else if(mod == "modify") {
+      window.open("tr_popup.php?id=" + number, "tr_click_popup", "width=550,  height=650, scrollbars=no, location=no, toolbar=no, status=no");
     }
     else if(mod == "delete") {
-      document.getElementById("number").value = number;
-      var url = "./db/delete_mac.php";
+      var result = confirm("전시물을 삭제하시겠습니까?");
+      if(result) {
+        document.getElementById("number").value = number;
+        frmPop.action = "./db/delete_exhibit.php";
+        frmPop.submit();
+      }
     }
-    frmPop.action = url;
-    frmPop.target = "setSubmitUrl_popup";
-    frmPop.submit();
   }
   $(document).ready(function(){
     var div1Y = $("#bd-box1").offset().top;
@@ -138,7 +138,7 @@
       <div class="inner-wrap">
         <div class="sub-contain">
           <div id="snb">
-            <h2 class="tit">전시관람 관리</h2>
+            <h2 class="tit">일반관람 관리</h2>
             <ul class="left-menu">
               <li><a href="/exhibition/exhibition.php" class="depth2 on">전시관 관리</a>
                 <ul class="depth3">
@@ -158,7 +158,7 @@
               <div class="right">
                 <ul class="location">
                   <li class="home"><span>home</span></li>
-                  <li class="now">전시관람 관리</li>
+                  <li class="now">일반관람 관리</li>
                   <li class="now">전시관 관리</li>
                 </ul>
               </div>
@@ -168,276 +168,59 @@
                 <input id="number" name="number" class="hidden">
                 <input id="value" name="value" class="hidden">
 
-                <div class="bd-box" id="bd-box1">
-                  <h5 class="tit"><strong>제1전시관</strong></h5>
-                  <div class="exhibition-box">
-                    개설 여부 :<input type="checkbox" id="checbox1" <?php echo $isOpen[1]?"checked":""; ?>>
-                    <label for="checbox1" onclick='openSubmit(1, <?php echo $isOpen[1];?>)'></label><br><br>
-                    QR 코드 :<input  type="text" class="input-text" id="qrInput1" value=<?php echo $qr[1];?>>
-                    <button type="submit" class="btn-blue" onclick='setSubmitUrl("enter", 1)'>변경</button>
-                  </div>
-                  <div class="table-list">
-                    <table summary="제1전시관 테이블" id="table_div">
-                      <colgroup>
-                        <col width="20%" />
-                        <col width="60%" />
-                        <col width="20%" />
-                      </colgroup>
-  	              <thead>
-                        <tr>
-                          <th>NO.</th>
-                          <th>Beacon MAC</th>
-                          <th>비고</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <?php
-                          for($i = 1; $row =  each($mac[1]); $i++) {
-                        ?>
+                <?php
+                  for($i = 1; $i < 7; $i++) {
+                ?>
+                  <div class="bd-box" id=<?php echo "bd-box".$i; ?>>
+                    <h5 class="tit"><strong>제<?php echo $i; ?>전시관</strong></h5>
+                    <div class="exhibition-box">
+                      개설 여부 :<input type="checkbox" id=<?php echo "checbox".$i; ?> <?php echo $isOpen[$i]?"checked":""; ?>>
+                      <label for=<?php echo "checbox".$i; ?> onclick='openSubmit(<?php echo "$i, ".$isOpen[$i]; ?>)'></label><br><br>
+                      QR 코드 :<input  type="text" class="input-text" id=<?php echo "qrInput".$i; ?> value=<?php echo $qr[$i];?>>
+                      <button type="submit" class="btn-blue" onclick='setSubmitUrl("enter", <?php echo $i; ?>)'>변경</button>
+                    </div>
+                    <div class="table-list">
+                      <table summary="제<?php echo $i; ?>전시관 테이블" id="table_div">
+                        <colgroup>
+                          <col width="20%" />
+                          <col width="60%" />
+                          <col width="20%" />
+                        </colgroup>
+                        <thead>
                           <tr>
-                            <td><?php echo $i; ?></td>
-                            <td><?php echo $row[1][1] ?></td>
+                            <th>NO.</th>
+                            <th>전시물 이름</th>
+                            <th>비고</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <?php
+                            $sql = query("SELECT * FROM exhibit WHERE number = ".$i);
+                            $mac = [];
+                            $j = 0;
+                            while($exhibit = $sql->fetch_array()) {
+                              $j++;
+                          ?>
+                            <tr name="table_tr" onclick='<?php echo("setSubmitUrl(\"modify\", ".$exhibit['id'].")") ?>'>
+                              <td><?php echo $j; ?></td>
+                              <td><?php echo $exhibit['name'] ?></td>
+                              <td onclick="event.cancelBubble=true;">
+                                <button type="submit" class="btn-blue" onclick='setSubmitUrl("delete", <?php echo $exhibit['id']; ?>)'>삭제</button>
+                              </td>
+                            </tr>
+                          <?php } ?>
+                          <tr>
+                            <td></td>
+                            <td></td>
                             <td>
-                              <button type="submit" class="btn-blue" onclick='setSubmitUrl("delete", <?php echo $row[1][0]; ?>)'>삭제</button>
+                              <button type="submit" class="btn-blue" onclick='setSubmitUrl("add", <?php echo $i; ?>)'>추가</button>
                             </td>
                           </tr>
-                        <?php } ?>
-                        <tr>
-                          <td></td>
-                          <td><input id="macInput1"></input></td>
-                          <td>
-                            <button type="submit" class="btn-blue" onclick='setSubmitUrl("add", 1)'>추가</button>
-                          </td>
-                        </tr>
-                      </thead>
-                    </table>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
-                </div>
-                <div class="bd-box" id="bd-box2">
-                  <h5 class="tit"><strong>제2전시관</strong></h5>
-                  <div class="exhibition-box">
-                    개설 여부 :<input type="checkbox" id="checbox2" <?php echo $isOpen[2]?"checked":""; ?>>
-                    <label for="checbox2" onclick='openSubmit(2, <?php echo $isOpen[2];?>)'></label><br><br>
-                    QR 코드 :<input  type="text" class="input-text" id="qrInput2" value=<?php echo $qr[2];?>>
-                    <button type="submit" class="btn-blue" onclick='setSubmitUrl("enter", 2)'>변경</button>
-                  </div>
-                  <div class="table-list">
-                    <table summary="제2전시관 테이블" id="table_div">
-                      <colgroup>
-                        <col width="20%" />
-                        <col width="60%" />
-                        <col width="20%" />
-                      </colgroup>
-                      <thead>
-                        <tr>
-                          <th>NO.</th>
-                          <th>Beacon MAC</th>
-                          <th>비고</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <?php
-                          for($i = 1; $row =  each($mac[2]); $i++) {
-                        ?>
-                          <tr>
-                            <td><?php echo $i; ?></td>
-                            <td><?php echo $row[1][1] ?></td>
-                            <td>
-                              <button type="submit" class="btn-blue" onclick='setSubmitUrl("delete", <?php echo $row[1][0]; ?>)'>삭제</but$
-                            </td>
-                          </tr>
-                        <?php } ?>
-                        <tr>
-                          <td></td>
-                          <td><input id="macInput2"></input></td>
-                          <td>
-                            <button type="submit" class="btn-blue" onclick='setSubmitUrl("add", 2)'>추가</button>
-                          </td>
-                        </tr>
-                      </thead>
-                    </table>
-                  </div>
-                </div>
-                <div class="bd-box" id="bd-box3">
-                  <h5 class="tit"><strong>제3전시관</strong></h5>
-                  <div class="exhibition-box">
-                    개설 여부 :<input type="checkbox" id="checbox3" <?php echo $isOpen[3]?"checked":""; ?>>
-                    <label for="checbox3" onclick='openSubmit(3, <?php echo $isOpen[3];?>)'></label><br><br>
-                    QR 코드 :<input  type="text" class="input-text" id="qrInput3" value=<?php echo $qr[3];?>>
-                    <button type="submit" class="btn-blue" onclick='setSubmitUrl("enter", 3)'>변경</button>
-                  </div>
-                  <div class="table-list">
-                    <table summary="제3전시관 테이블" id="table_div">
-                      <colgroup>
-                        <col width="20%" />
-                        <col width="60%" />
-                        <col width="20%" />
-                      </colgroup>
-                      <thead>
-                        <tr>
-                          <th>NO.</th>
-                          <th>Beacon MAC</th>
-                          <th>비고</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <?php
-                          for($i = 1; $row =  each($mac[3]); $i++) {
-                        ?>
-                          <tr>
-                            <td><?php echo $i; ?></td>
-                            <td><?php echo $row[1][1] ?></td>
-                            <td>
-                              <button type="submit" class="btn-blue" onclick='setSubmitUrl("delete", <?php echo $row[1][0]; ?>)'>삭제</but$
-                            </td>
-                          </tr>
-                        <?php } ?>
-                        <tr>
-                          <td></td>
-                          <td><input id="macInput3"></input></td>
-                          <td>
-                            <button type="submit" class="btn-blue" onclick='setSubmitUrl("add", 3)'>추가</button>
-                          </td>
-                        </tr>
-                      </thead>
-                    </table>
-                  </div>
-                </div>
-                <div class="bd-box" id="bd-box4">
-                  <h5 class="tit"><strong>제4전시관</strong></h5>
-                  <div class="exhibition-box">
-                    개설 여부 :<input type="checkbox" id="checbox4" <?php echo $isOpen[4]?"checked":""; ?>>
-                    <label for="checbox4" onclick='openSubmit(4, <?php echo $isOpen[4];?>)'></label><br><br>
-                    QR 코드 :<input  type="text" class="input-text" id="qrInput4" value=<?php echo $qr[4];?>>
-                    <button type="submit" class="btn-blue" onclick='setSubmitUrl("enter", 4)'>변경</button>
-                  </div>
-                  <div class="table-list">
-                    <table summary="제4전시관 테이블" id="table_div">
-                      <colgroup>
-                        <col width="20%" />
-                        <col width="60%" />
-                        <col width="20%" />
-                      </colgroup>
-                      <thead>
-                        <tr>
-                          <th>NO.</th>
-                          <th>Beacon MAC</th>
-                          <th>비고</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <?php
-                          for($i = 1; $row =  each($mac[4]); $i++) {
-                        ?>
-                          <tr>
-                            <td><?php echo $i; ?></td>
-                            <td><?php echo $row[1][1] ?></td>
-                            <td>
-                              <button type="submit" class="btn-blue" onclick='setSubmitUrl("delete", <?php echo $row[1][0]; ?>)'>삭제</but$
-                            </td>
-                          </tr>
-                        <?php } ?>
-                        <tr>
-                          <td></td>
-                          <td><input id="macInput4"></input></td>
-                          <td>
-                            <button type="submit" class="btn-blue" onclick='setSubmitUrl("add", 4)'>추가</button>
-                          </td>
-                        </tr>
-                      </thead>
-                    </table>
-                  </div>
-                </div>
-                <div class="bd-box" id="bd-box5">
-                  <h5 class="tit"><strong>제5전시관</strong></h5>
-                  <div class="exhibition-box">
-                    개설 여부 :<input type="checkbox" id="checbox5" <?php echo $isOpen[5]?"checked":""; ?>>
-                    <label for="checbox5" onclick='openSubmit(5, <?php echo $isOpen[5];?>)'></label><br><br>
-                    QR 코드 :<input  type="text" class="input-text" id="qrInput5" value=<?php echo $qr[5];?>>
-                    <button type="submit" class="btn-blue" onclick='setSubmitUrl("enter", 5)'>변경</button>
-                  </div>
-                  <div class="table-list">
-                    <table summary="제5전시관 테이블" id="table_div">
-                      <colgroup>
-                        <col width="20%" />
-                        <col width="60%" />
-                        <col width="20%" />
-                      </colgroup>
-                      <thead>
-                        <tr>
-                          <th>NO.</th>
-                          <th>Beacon MAC</th>
-                          <th>비고</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <?php
-                          for($i = 1; $row =  each($mac[5]); $i++) {
-                        ?>
-                          <tr>
-                            <td><?php echo $i; ?></td>
-                            <td><?php echo $row[1][1] ?></td>
-                            <td>
-                              <button type="submit" class="btn-blue" onclick='setSubmitUrl("delete", <?php echo $row[1][0]; ?>)'>삭제</but$
-                            </td>
-                          </tr>
-                        <?php } ?>
-                        <tr>
-                          <td></td>
-                          <td><input id="macInput5"></input></td>
-                          <td>
-                            <button type="submit" class="btn-blue" onclick='setSubmitUrl("add", 5)'>추가</button>
-                          </td>
-                        </tr>
-                      </thead>
-                    </table>
-                  </div>
-                </div>
-                <div class="bd-box" id="bd-box6">
-                  <h5 class="tit"><strong>제6전시관</strong></h5>
-                  <div class="exhibition-box">
-                    개설 여부 :<input type="checkbox" id="checbox6" <?php echo $isOpen[6]?"checked":""; ?>>
-                    <label for="checbox6" onclick='openSubmit(6, <?php echo $isOpen[6];?>)'></label><br><br>
-                    QR 코드 :<input  type="text" class="input-text" id="qrInput6" value=<?php echo $qr[6];?>>
-                    <button type="submit" class="btn-blue" onclick='setSubmitUrl("enter", 6)'>변경</button>
-                  </div>
-                  <div class="table-list">
-                    <table summary="제6전시관 테이블" id="table_div">
-                      <colgroup>
-                        <col width="20%" />
-                        <col width="60%" />
-                        <col width="20%" />
-                      </colgroup>
-                      <thead>
-                        <tr>
-                          <th>NO.</th>
-                          <th>Beacon MAC</th>
-                          <th>비고</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <?php
-                          for($i = 1; $row =  each($mac[6]); $i++) {
-                        ?>
-                          <tr>
-                            <td><?php echo $i; ?></td>
-                            <td><?php echo $row[1][1] ?></td>
-                            <td>
-                              <button type="submit" class="btn-blue" onclick='setSubmitUrl("delete", <?php echo $row[1][0]; ?>)'>삭제</but$
-                            </td>
-                          </tr>
-                        <?php } ?>
-                        <tr>
-                          <td></td>
-                          <td><input id="macInput6"></input></td>
-                          <td>
-                            <button type="submit" class="btn-blue" onclick='setSubmitUrl("add", 6)'>추가</button>
-                          </td>
-                        </tr>
-                      </thead>
-                    </table>
-                  </div>
-                </div>
+                <?php } ?>
               </form>
             </div>
           </div>
