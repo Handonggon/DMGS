@@ -8,7 +8,7 @@
   <head>
     <meta charset="UTF-8">
     <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
-    <link rel="stylesheet" href="/css/popup.css?var=2">
+    <link rel="stylesheet" href="/css/popup.css?var=1">
     <body onresize="parent.resizeTo(550,700)" onload="parent.resizeTo(550,700)">
     <script>
       function setSubmitUrl(mode) {
@@ -19,6 +19,53 @@
           window.close();
         }
       }
+
+      function isValidSubmit() {
+        return (document.getElementById("form-name").value != "" &&
+                  document.getElementById("form-MAC").value != "" &&
+                  document.getElementById("form-space").value != "" &&
+                  document.getElementById("form-img").value != "");
+      }
+
+      $(document).ready(function(){
+        var fileTarget = $('.filebox .upload-hidden');
+        fileTarget.on('change', function(){
+          if(window.FileReader){
+            // 파일명 추출
+            var filename = $(this)[0].files[0].name;
+          }
+          else {
+            // Old IE 파일명 추출
+            var filename = $(this).val().split('/').pop().split('\\').pop();
+          };
+          $(this).siblings('.upload-name').val(filename);
+        });
+        //preview image
+        var imgTarget = $('.preview-image .upload-hidden');
+        imgTarget.on('change', function(){
+          var parent = $(this).parent();
+           parent.children('.upload-display').remove();
+          if(window.FileReader){
+            //image 파일만
+            if (!$(this)[0].files[0].type.match(/image\//)) return;
+            var reader = new FileReader();
+            reader.onload = function(e){
+              var src = e.target.result;
+              parent.prepend('<div class="upload-display"><div class="upload-thumb-wrap"><img src="'+src+'" class="upload-thumb"></div></div>');
+            }
+            reader.readAsDataURL($(this)[0].files[0]);
+          }
+          else {
+            $(this)[0].select();
+            $(this)[0].blur();
+            var imgSrc = document.selection.createRange().text;
+            parent.prepend('<div class="upload-display"><div class="upload-thumb-wrap"><img class="upload-thumb"></div></div>');
+
+            var img = $(this).siblings('.upload-display').find('img');
+            img[0].style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(enable='true',sizingMethod='scale',src=\""+imgSrc+"\")";
+          }
+        });
+      });
     </script>
     <link rel="shortcut icon" href="/images/logo.png" />
     <title>전시물 정보</title>
@@ -30,7 +77,7 @@
         <h3 class="tit">전시물 정보</h3>
       </div>
       <div class="content">
-        <form name="exhibit_form" method="post" enctype="multipart/form-data">
+        <form name="exhibit_form" method="post" enctype="multipart/form-data" onsubmit="return isValidSubmit()">
           <div class="input-table">
             <table>
               <cpation>전시관 번호, 전시물 이름, Beacon MAC, Beanaon과의 거리, 사진</cpation>
@@ -76,8 +123,11 @@
                 <tr>
                   <th scope="row"><label for="form-img">사진</label></th>
                   <td>
-                    <input type="file" name="form-img" id="form-img"><br>
-                    <?php echo $exhibit["img"]?>
+                    <div class="filebox bs3-primary preview-image">
+                      <input class="upload-name" disabled="disabled" style="width: 200px;">
+                      <label for="form-img">업로드</label>
+                      <input type="file" name="form-img" id="form-img" class="upload-hidden">
+                    </div>
                   </td>
                 </tr>
               </tbody>
