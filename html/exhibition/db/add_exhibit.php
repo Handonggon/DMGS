@@ -5,9 +5,9 @@
   $name = addslashes($_POST['form-name']);
   $MAC = addslashes($_POST['form-MAC']);
   $space = addslashes($_POST['form-space']);
-  $img = basename($_FILES['form-img']['name']);
+  $img = html_entity_decode(htmlentities($_FILES['form-img']['name'], ENT_QUOTES, 'UTF-8'));
   echo $id, $number, $name, $MAC, $space, $img;
-  print_r($_FILES);
+  //print_r($_FILES);
 
   if(isset($_FILES['form-img']) && !$_FILES['form-img']['error']) {
     //허용할 이미지 종류를 배열로 저장

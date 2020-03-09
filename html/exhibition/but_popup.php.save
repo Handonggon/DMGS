@@ -13,18 +13,16 @@
     <script>
       function setSubmitUrl(mode) {
         if(mode == "add") {
-          document.forms["exhibit_form"].action = "./db/add_exhibit.php";
+          if(document.getElementById("form-name").value != "" &&
+               document.getElementById("form-MAC").value != "" &&
+               document.getElementById("form-space").value != "" &&
+document.forms["exhibit_form"].action = "./db/add_exhibit.php";               document.getElementById("form-img").value != "") {
+
+          }
         }
         else if(mode == "esc") {
           window.close();
         }
-      }
-
-      function isValidSubmit() {
-        return (document.getElementById("form-name").value != "" &&
-                  document.getElementById("form-MAC").value != "" &&
-                  document.getElementById("form-space").value != "" &&
-                  document.getElementById("form-img").value != "");
       }
 
       $(document).ready(function(){
@@ -51,7 +49,7 @@
             var reader = new FileReader();
             reader.onload = function(e){
               var src = e.target.result;
-              parent.append('<div class="upload-display"><div class="upload-thumb-wrap"><img src="'+src+'" class="upload-thumb"></div></div>');
+              parent.prepend('<div class="upload-display"><div class="upload-thumb-wrap"><img src="'+src+'" class="upload-thumb"></div></div>');
             }
             reader.readAsDataURL($(this)[0].files[0]);
           }
@@ -59,7 +57,7 @@
             $(this)[0].select();
             $(this)[0].blur();
             var imgSrc = document.selection.createRange().text;
-            parent.append('<div class="upload-display"><div class="upload-thumb-wrap"><img class="upload-thumb"></div></div>');
+            parent.prepend('<div class="upload-display"><div class="upload-thumb-wrap"><img class="upload-thumb"></div></div>');
 
             var img = $(this).siblings('.upload-display').find('img');
             img[0].style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(enable='true',sizingMethod='scale',src=\""+imgSrc+"\")";
@@ -77,7 +75,7 @@
         <h3 class="tit">전시물 정보</h3>
       </div>
       <div class="content">
-        <form name="exhibit_form" method="post" enctype="multipart/form-data" onsubmit="return isValidSubmit()">
+        <form name="exhibit_form" method="post" enctype="multipart/form-data">
           <div class="input-table">
             <table>
               <cpation>전시관 번호, 전시물 이름, Beacon MAC, Beanaon과의 거리, 사진</cpation>
