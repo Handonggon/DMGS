@@ -16,18 +16,25 @@
     //imageKind 배열내에 $_FILES['upload']['type']에 해당되는 타입(문자열) 있는지 체크
     if(in_array(strtolower($_FILES['form-img']['type']), $imageKind)) {
       if(move_uploaded_file($_FILES['form-img']['tmp_name'], "../uploads/".$img)) {
-        $result = query("UPDATE $table SET number=$number, name='$name', MAC='$MAC',space=$space, img='$img' WHERE id = '$id';");
-        if($result != 0) {
-          echo "
-            <script>
-              alert('수정되었습니다.');
-              opener.parent.parent.location.reload();
-              window.close();
-            </script>
-          ";
+        $sql = query("SELECT * FROM $table WHERE id = '$id';");
+        $exhibit = $sql->fetch_array();
+        if(unlink("../uploads/".$exhibit['img'])) {
+          $result = query("UPDATE $table SET number=$number, name='$name', MAC='$MAC',space=$space, img='$img' WHERE id = '$id';");
+          if($result != 0) {
+            echo "
+              <script>
+                alert('수정되었습니다.');
+                opener.parent.parent.location.reload();
+                window.close();
+              </script>
+            ";
+          }
+          else {
+            echo "DB 수정 실패";
+          }
         }
         else {
-          echo "전시물 정보가 중복되었습니다.";
+          echo "사진 삭제 실패";
         }
       }
       else {
