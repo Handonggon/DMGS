@@ -23,8 +23,7 @@
       function isValidSubmit() {
         return (document.getElementById("form-name").value != "" &&
                   document.getElementById("form-MAC").value != "" &&
-                  document.getElementById("form-space").value != "");/* &&
-                  document.getElementById("form-img").value != "");*/
+                  document.getElementById("form-space").value != "");
       }
 
       $(document).ready(function(){
@@ -39,6 +38,7 @@
             var filename = $(this).val().split('/').pop().split('\\').pop();
           };
           $(this).siblings('.upload-name').val(filename);
+          document.getElementById("form-img_name").value = filename;
         });
         //preview image
         var imgTarget = $('.preview-image .upload-hidden');
@@ -129,7 +129,7 @@
                   <th scope="row"><label for="form-img">사진</label></th>
                   <td>
                     <div class="filebox bs3-primary preview-image">
-                      <input type="hidden" name="form-img_name" value=<?php echo $exhibit['img'];?>>
+                      <input type="hidden" name="form-img_name" id="form-img_name" value=<?php echo $exhibit['img'];?>>
                       <input class="upload-name" disabled="disabled" style="width: 200px;" value=<?php echo $exhibit['img']; ?>>
                       <label for="form-img">업로드</label>
                       <input type="file" name="form-img" id="form-img" class="upload-hidden">

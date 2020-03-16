@@ -22,7 +22,7 @@
       }
       //print_r(count($result[$i]));
     }
-    print_r(json_encode(array('result'=>$result), JSON_PRETTY_PRINT+JSON_UNESCAPED_UNICODE));
+    print_r(json_encode($result, JSON_PRETTY_PRINT+JSON_UNESCAPED_UNICODE));
   }
   else {
     echo '-1';
