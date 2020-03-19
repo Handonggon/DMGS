@@ -5,7 +5,7 @@
 
   $sql = query("SELECT * FROM $table WHERE id = '$id';");
   $exhibit = $sql->fetch_array();
-  if(unlink("../uploads/".$exhibit['img'])) {
+  if(unlink("../uploads/".$exhibit['hash'])) {
     $result = query("DELETE FROM $table WHERE id = '$id'");
     if($result != 0) {
       echo "

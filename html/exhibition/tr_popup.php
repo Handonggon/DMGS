@@ -110,7 +110,7 @@
                 <tr>
                   <th scope="row"><label for="form-name">이름</label></th>
                   <td>
-                    <input type="text" name="form-name" id="form-name" size="20" value=<?php echo $exhibit['name'];?>>
+                    <input type="text" name="form-name" id="form-name" size="20" value="<?php echo $exhibit['name'];?>">
                   </td>
                 </tr>
                 <tr>
@@ -129,13 +129,13 @@
                   <th scope="row"><label for="form-img">사진</label></th>
                   <td>
                     <div class="filebox bs3-primary preview-image">
-                      <input type="hidden" name="form-img_name" id="form-img_name" value=<?php echo $exhibit['img'];?>>
+                      <input type="hidden" name="form-img_name" id="form-img_name" value=<?php echo $exhibit['hash'];?>>
                       <input class="upload-name" disabled="disabled" style="width: 200px;" value=<?php echo $exhibit['img']; ?>>
                       <label for="form-img">업로드</label>
                       <input type="file" name="form-img" id="form-img" class="upload-hidden">
                       <div class="upload-display">
                         <div class="upload-thumb-wrap">
-                          <img src=<?php echo "./uploads/".$exhibit['img']; ?> class="upload-thumb">
+                          <img src=<?php echo "./uploads/".$exhibit['hash']; ?> class="upload-thumb">
                         </div>
                       </div>
                     </div>
