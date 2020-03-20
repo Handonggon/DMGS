@@ -3,10 +3,10 @@
 
   if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $result = [];
-    $sql = query("SELECT img FROM exhibit;");
+    $sql = query("SELECT hash FROM exhibit;");
     if($sql) {
       while($exhibit = $sql->fetch_array()) {
-        array_push($result, "35.221.108.183/exhibition/uploads/".$exhibit['img']);
+        array_push($result, "35.221.108.183/exhibition/uploads/".$exhibit['hash']);
       }
     }
     else {

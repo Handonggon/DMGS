@@ -9,7 +9,7 @@
       if($sql) {
         $result[$i] = [];
         while($exhibit = $sql->fetch_array()) {
-          array_push($result[$i], array("name"=>$exhibit['name'], "MAC"=>$exhibit['MAC'], "space"=>$exhibit['space'], "img"=>"35.221.108.183/exhibition/uploads/".$exhibit['img']));
+          array_push($result[$i], array("name"=>$exhibit['name'], "MAC"=>$exhibit['MAC'], "space"=>$exhibit['space'], "img"=>$exhibit['hash']));
         }
       }
       else {
@@ -20,7 +20,6 @@
         unset($result[$i][$randomNum]);
         $result[$i] = array_values($result[$i]);
       }
-      //print_r(count($result[$i]));
     }
     print_r(json_encode($result, JSON_PRETTY_PRINT+JSON_UNESCAPED_UNICODE));
   }
