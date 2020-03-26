@@ -9,17 +9,33 @@
     <meta charset="UTF-8">
     <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
     <link rel="stylesheet" href="/css/popup.css?var=1">
-    <body onresize="parent.resizeTo(550,700)" onload="parent.resizeTo(550,700)">
+    <body onresize="parent.resizeTo(550,550)" onload="parent.resizeTo(550,550)">
     <script>
+      function autoTab(tabno, invalue) {
+        if(invalue.length == tabno.maxLength) {
+          var nextin = tabno.tabIndex;
+          if(nextin < document.forms[0].elements.length) {
+	    document.forms[0].elements[nextin].focus();
+          }
+        }
+      }
+      function onlyNumber() {
+        if(!(((event.keyCode > 47) && (event.keyCode < 58)) || ((event.keyCode > 64) && (event.keyCode < 91)))) {
+          event.returnValue = false;
+        }
+      }
       function setSubmitUrl(mode) {
         if(mode == "add") {
+          document.getElementById("form-MAC").value = document.getElementById("form-MAC1").value + ":" +
+                                                      document.getElementById("form-MAC2").value + ":" +
+                                                      document.getElementById("form-MAC3").value + ":" +
+                                                      document.getElementById("form-MAC4").value;
           document.forms["exhibit_form"].action = "./db/add_exhibit.php";
         }
         else if(mode == "esc") {
           window.close();
         }
       }
-
       function isValidSubmit() {
         return (document.getElementById("form-name").value != "" &&
                   document.getElementById("form-MAC").value != "" &&
@@ -110,15 +126,13 @@
                 </tr>
                 <tr>
                   <th scope="row"><label for="form-MAC">MAC</label></th>
-                  <td>
-                    <input type="text" name="form-MAC" id="form-MAC" size="20">
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row"><label for="form-space">거리</label></th>
-                  <td>
-                    <input type="text" name="form-space" id="form-space" size="5"> M
-                  </td>
+                  <td><span style="font-weight:bold;">
+                    <input type="hidden" name="form-MAC" id="form-MAC">
+                    <input type="text" name="form-MAC1" id="form-MAC1" size="1" maxlength="2" onKeyPress="onlyNumber()" onKeyUp="autoTab(this, this.value)" tabindex="9"> :
+                    <input type="text" name="form-MAC2" id="form-MAC2" size="1" maxlength="2" onKeyPress="onlyNumber()" onKeyUp="autoTab(this, this.value)" tabindex="10"> :
+                    <input type="text" name="form-MAC3" id="form-MAC3" size="1" maxlength="2" onKeyPress="onlyNumber()" onKeyUp="autoTab(this, this.value)" tabindex="11"> :
+                    <input type="text" name="form-MAC4" id="form-MAC4" size="1" maxlength="2" onKeyPress="onlyNumber()" onKeyUp="autoTab(this, this.value)" tabindex="12">
+                  </span></td>
                 </tr>
                 <tr>
                   <th scope="row"><label for="form-img">사진</label></th>

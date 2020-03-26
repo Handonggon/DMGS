@@ -4,7 +4,6 @@
   $number = addslashes($_POST['form-number']);
   $name = addslashes($_POST['form-name']);
   $MAC = addslashes($_POST['form-MAC']);
-  $space = addslashes($_POST['form-space']);
   $img = html_entity_decode(htmlentities($_FILES['form-img']['name'], ENT_QUOTES, 'UTF-8'));
   $hash = hash('sha256', $img+time());
   echo $id, $number, $name, $MAC, $space, $img;
@@ -16,7 +15,7 @@
     //imageKind 배열내에 $_FILES['upload']['type']에 해당되는 타입(문자열) 있는지 체크
     if(in_array(strtolower($_FILES['form-img']['type']), $imageKind)) {
       if(move_uploaded_file($_FILES['form-img']['tmp_name'], "../uploads/".$hash)) {
-        $result = query("INSERT INTO $table(id, number, name, MAC, space, img, hash) values(null, $number, '$name', '$MAC', $space, '$img', '$hash');");
+        $result = query("INSERT INTO $table(id, number, name, MAC, img, hash) values(null, $number, '$name', '$MAC', '$img', '$hash');");
         if($result != 0) {
           echo "
             <script>

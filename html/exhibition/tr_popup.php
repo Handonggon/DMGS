@@ -9,7 +9,7 @@
     <meta charset="UTF-8">
     <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
     <link rel="stylesheet" href="/css/popup.css?var=1">
-    <body onresize="parent.resizeTo(550,700)" onload="parent.resizeTo(550,700)">
+    <body onresize="parent.resizeTo(550,550)" onload="parent.resizeTo(550,550)">
     <script>
       function setSubmitUrl(mode) {
         if(mode == "modify") {

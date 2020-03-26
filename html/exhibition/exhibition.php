@@ -49,10 +49,10 @@
       frmPop.submit();
     }
     else if(mod == "add") {
-      window.open("but_popup.php?number=" + number, "but_click_popup", "width=550,  height=650, scrollbars=no, location=no, toolbar=no, status=no");
+      window.open("but_popup.php?number=" + number, "but_click_popup", "width=550,  height=550, scrollbars=no, location=no, toolbar=no, status=no");
     }
     else if(mod == "modify") {
-      window.open("tr_popup.php?id=" + number, "tr_click_popup", "width=550,  height=650, scrollbars=no, location=no, toolbar=no, status=no");
+      window.open("tr_popup.php?id=" + number, "tr_click_popup", "width=550,  height=550, scrollbars=no, location=no, toolbar=no, status=no");
     }
     else if(mod == "delete") {
       var result = confirm("전시물을 삭제하시겠습니까?");

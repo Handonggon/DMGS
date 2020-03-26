@@ -9,7 +9,7 @@
       if($sql) {
         $result[$i] = [];
         while($exhibit = $sql->fetch_array()) {
-          array_push($result[$i], array("name"=>$exhibit['name'], "MAC"=>$exhibit['MAC'], "space"=>$exhibit['space'], "img"=>$exhibit['hash']));
+          array_push($result[$i], array("name"=>$exhibit['name'], "MAC"=>$exhibit['MAC'], "img"=>$exhibit['hash']));
         }
       }
       else {
