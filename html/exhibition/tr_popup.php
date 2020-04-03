@@ -9,10 +9,29 @@
     <meta charset="UTF-8">
     <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
     <link rel="stylesheet" href="/css/popup.css?var=1">
-    <body onresize="parent.resizeTo(550,550)" onload="parent.resizeTo(550,550)">
+    <body onresize="parent.resizeTo(600,580)" onload="parent.resizeTo(600,580)">
     <script>
+      function autoTab(tabno, invalue) {
+        if(invalue.length == tabno.maxLength) {
+          var nextin = tabno.tabIndex;
+          if(nextin < document.forms[0].elements.length) {
+	    document.forms[0].elements[nextin].focus();
+          }
+        }
+      }
+      function onlyNumber() {
+        if(!(((event.keyCode > 47) && (event.keyCode < 58)) || ((event.keyCode > 64) && (event.keyCode < 91)))) {
+          event.returnValue = false;
+        }
+      }
       function setSubmitUrl(mode) {
         if(mode == "modify") {
+          document.getElementById("form-MAC").value = document.getElementById("form-MAC1").value + ":" +
+                                                      document.getElementById("form-MAC2").value + ":" +
+                                                      document.getElementById("form-MAC3").value + ":" +
+                                                      document.getElementById("form-MAC4").value + ":" +
+                                                      document.getElementById("form-MAC5").value + ":" +
+                                                      document.getElementById("form-MAC6").value;
           document.forms["exhibit_form"].action = "./db/modify_exhibit.php";
         }
         else if(mode == "esc") {
@@ -86,8 +105,8 @@
             <table>
               <cpation>전시관 번호, 전시물 이름, Beacon MAC, Beanaon과의 거리, 사진</cpation>
               <colgroup>
-	        <col style="width:110px;"/>
-	        <col style="width:340px;"/>
+	        <col style="width:120px;"/>
+	        <col style="width:390px;"/>
 	      </colgroup>
               <tbody>
                 <tr>
@@ -110,19 +129,20 @@
                 <tr>
                   <th scope="row"><label for="form-name">이름</label></th>
                   <td>
-                    <input type="text" name="form-name" id="form-name" size="20" value="<?php echo $exhibit['name'];?>">
+                    <input type="text" name="form-name" id="form-name" size="28" value="<?php echo $exhibit['name'];?>">
                   </td>
                 </tr>
                 <tr>
                   <th scope="row"><label for="form-MAC">MAC</label></th>
                   <td>
-                    <input type="text" name="form-MAC" id="form-MAC" size="20" value=<?php echo $exhibit['MAC'];?>>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row"><label for="form-space">거리</label></th>
-                  <td>
-                    <input type="text" name="form-space" id="form-space" size="5" value=<?php echo $exhibit['space'];?>> M
+                    <input type="hidden" name="form-MAC" id="form-MAC" value="<?php echo $exhibit['MAC'];?>">
+                    <?php $MAC_split = explode(":", $exhibit['MAC']);?>
+                    <input type="text" name="form-MAC1" id="form-MAC1" size="1" maxlength="2" onKeyPress="onlyNumber()" onKeyUp="autoTab(this, this.value)" tabindex="9" value="<?php echo $MAC_split[0];?>"> :
+                    <input type="text" name="form-MAC2" id="form-MAC2" size="1" maxlength="2" onKeyPress="onlyNumber()" onKeyUp="autoTab(this, this.value)" tabindex="10" value="<?php echo $MAC_split[1];?>"> :
+                    <input type="text" name="form-MAC3" id="form-MAC3" size="1" maxlength="2" onKeyPress="onlyNumber()" onKeyUp="autoTab(this, this.value)" tabindex="11" value="<?php echo $MAC_split[2];?>"> :
+                    <input type="text" name="form-MAC4" id="form-MAC4" size="1" maxlength="2" onKeyPress="onlyNumber()" onKeyUp="autoTab(this, this.value)" tabindex="12" value="<?php echo $MAC_split[3];?>"> :
+                    <input type="text" name="form-MAC5" id="form-MAC5" size="1" maxlength="2" onKeyPress="onlyNumber()" onKeyUp="autoTab(this, this.value)" tabindex="13" value="<?php echo $MAC_split[4];?>"> :
+                    <input type="text" name="form-MAC6" id="form-MAC6" size="1" maxlength="2" onKeyPress="onlyNumber()" onKeyUp="autoTab(this, this.value)" tabindex="14" value="<?php echo $MAC_split[5];?>">
                   </td>
                 </tr>
                 <tr>
